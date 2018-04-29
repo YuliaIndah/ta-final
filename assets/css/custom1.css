@@ -1,0 +1,40 @@
+.login-sk-body{
+
+  background: url('../img/sk5.jpeg') no-repeat center center fixed; 
+
+  -webkit-background-size: cover;
+
+  -moz-background-size: cover;
+
+  -o-background-size: cover;
+
+  background-size: cover;
+
+}
+
+.containergrafik {
+   width: 20px;
+   padding-left: 7%;
+}
+
+.aktifmenu{
+	background-color: #455a64;
+  	color: #fff;
+}
+
+.tablepdf{
+	font-family: sans-serif;
+	color: #232323;
+	border-collapse: collapse;
+	text-align: center;
+	font-size: 12px;
+	margin-left: 50px;
+}
+.tablepdf, th, td{
+	border: 1px solid #999;
+	padding: 8px 20px;
+}
+
+#body{
+	margin-left: 100px;
+}
