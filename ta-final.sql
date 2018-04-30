@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 28 Apr 2018 pada 15.11
+-- Generation Time: 30 Apr 2018 pada 11.12
 -- Versi Server: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ta-fix`
+-- Database: `ta-final`
 --
 
 -- --------------------------------------------------------
@@ -43,6 +43,76 @@ INSERT INTO `acc_kegiatan` (`kode_acc_kegiatan`, `id_pengguna`, `kode_jenis_kegi
 (9, 2, 2, 1, '2018-04-24 10:05:28', NULL),
 (11, 3, 2, 2, '2018-04-24 10:06:28', NULL),
 (12, 2, 1, 1, '2018-04-24 14:54:13', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `akses_menu`
+--
+
+CREATE TABLE `akses_menu` (
+  `kode_akses_menu` int(10) NOT NULL,
+  `kode_unit` int(10) NOT NULL,
+  `kode_jabatan` int(10) NOT NULL,
+  `kode_menu` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `akses_menu`
+--
+
+INSERT INTO `akses_menu` (`kode_akses_menu`, `kode_unit`, `kode_jabatan`, `kode_menu`) VALUES
+(1, 1, 1, 1),
+(2, 1, 2, 1),
+(3, 1, 1, 2),
+(12, 2, 3, 3),
+(13, 3, 3, 3),
+(14, 4, 1, 3),
+(15, 5, 1, 3),
+(16, 6, 1, 3),
+(17, 9, 1, 3),
+(18, 10, 1, 3),
+(19, 11, 1, 3),
+(20, 12, 1, 3),
+(21, 13, 1, 3),
+(22, 14, 1, 3),
+(23, 16, 1, 3),
+(24, 15, 1, 3),
+(25, 17, 1, 3),
+(26, 3, 3, 4),
+(27, 2, 3, 5),
+(28, 8, 5, 6),
+(29, 2, 3, 8),
+(30, 3, 3, 10),
+(45, 3, 4, 10),
+(46, 3, 3, 11),
+(47, 3, 4, 11),
+(48, 2, 3, 12),
+(49, 2, 4, 12),
+(50, 2, 3, 13),
+(51, 2, 4, 13),
+(52, 1, 1, 14),
+(53, 1, 2, 14),
+(54, 1, 1, 15),
+(55, 1, 2, 15),
+(56, 1, 1, 16),
+(57, 1, 2, 16),
+(58, 2, 3, 17),
+(59, 3, 3, 17),
+(60, 4, 1, 17),
+(61, 5, 1, 17),
+(62, 6, 1, 17),
+(63, 9, 1, 17),
+(64, 10, 1, 17),
+(65, 11, 1, 17),
+(66, 12, 1, 17),
+(67, 13, 1, 17),
+(68, 17, 1, 17),
+(69, 16, 1, 17),
+(70, 15, 1, 17),
+(71, 14, 1, 17),
+(72, 2, 4, 18),
+(73, 2, 3, 18);
 
 -- --------------------------------------------------------
 
@@ -76,11 +146,7 @@ CREATE TABLE `captcha` (
 --
 
 INSERT INTO `captcha` (`captcha_id`, `captcha_time`, `ip_address`, `word`) VALUES
-(332, 1524903157, '::1', 'Gh8Mp7zs'),
-(333, 1524903177, '::1', 'wuFNjo7p'),
-(334, 1524903641, '::1', '9tC1qpeF'),
-(335, 1524905779, '::1', 'PIBOHYnp'),
-(336, 1524905779, '::1', 'euRQ4yL5');
+(379, 1525078593, '::1', 'm6WWYyfj');
 
 -- --------------------------------------------------------
 
@@ -117,7 +183,7 @@ INSERT INTO `data_diri` (`no_identitas`, `nama`, `jen_kel`, `tmp_lahir`, `tgl_la
 (123149802, 'Febriyan Yoga Pratama', 'Laki - laki', 'kjgkhg', '1998-04-28', 'kjglhjg', '96876', '2018-04-28 08:36:37', NULL),
 (1212123123, 'Febriyan Yoga Pratama', 'Laki - laki', 'asjdhbajdbs', '1998-04-28', 'asdjasmncbas', '123124', '2018-04-28 08:31:27', NULL),
 (1234567890, 'Febriyan Yoga Pratama', 'Laki - laki', 'Gunungkidul', '1998-04-28', 'gunungkidul', '07078', '2018-04-28 08:55:30', NULL),
-(340305180219950002, 'Febriyan Yoga Pratama', 'Laki - laki', 'Gunungkidul', '1998-04-23', 'Gunungkidul', '081217109583', '2018-04-23 15:30:27', '2018-04-25 16:27:27');
+(340305180219950002, 'Febriyan Yoga Pratama', 'Perempuan', 'Gunungkidul', '1998-04-11', 'Gunungkidul', '081217109583', '2018-04-23 15:30:27', '2018-04-30 03:54:43');
 
 -- --------------------------------------------------------
 
@@ -327,6 +393,41 @@ INSERT INTO `kegiatan` (`kode_kegiatan`, `id_pengguna`, `kode_jenis_kegiatan`, `
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `menu`
+--
+
+CREATE TABLE `menu` (
+  `kode_menu` int(10) NOT NULL,
+  `nama_menu` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `menu`
+--
+
+INSERT INTO `menu` (`kode_menu`, `nama_menu`) VALUES
+(1, 'persetujuan_keg_mhs'),
+(2, 'persetujuan_keg_peg'),
+(3, 'persetujuan_keg_staf'),
+(4, 'persetujuan_rab'),
+(5, 'persetujuan_brg'),
+(6, 'pengajuan_keg_mhs'),
+(7, 'pengajuan_keg_peg'),
+(8, 'pengajuan_rab'),
+(9, 'pengajuan_brg'),
+(10, 'status_pengajuan_keg_mhs'),
+(11, 'status_pengajuan_keg_peg'),
+(12, 'kelola_brg'),
+(13, 'klasifikasi_brg'),
+(14, 'daftar_pengguna'),
+(15, 'konfigurasi_sistem'),
+(16, 'prosedur'),
+(17, 'persetujuan_brg_staf'),
+(18, 'status_pengajuan_brg');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `nama_progress`
 --
 
@@ -386,7 +487,7 @@ CREATE TABLE `pengguna` (
 --
 
 INSERT INTO `pengguna` (`id_pengguna`, `no_identitas`, `kode_unit`, `kode_jabatan`, `email`, `password`, `status`, `status_email`, `exp_date`, `file_profil`, `created_at`, `updated_at`) VALUES
-(2, 340305180219950002, 1, 1, 'febriyanyoga@gmail.com', 'ee3ee6f00d2d5e2d7c028529cca6a311', 'aktif', '1', '0000-00-00', 'c81e728d9d4c2f636f067f89cc14862c.png', '2018-04-23 15:30:27', '2018-04-27 04:04:43'),
+(2, 340305180219950002, 1, 1, 'febriyanyoga@gmail.com', 'ee3ee6f00d2d5e2d7c028529cca6a311', 'aktif', '1', '0000-00-00', 'c81e728d9d4c2f636f067f89cc14862c.PNG', '2018-04-23 15:30:27', '2018-04-30 04:09:17'),
 (3, 12, 1, 2, 'sekdep@gmail.com', 'ee3ee6f00d2d5e2d7c028529cca6a311', 'aktif', '1', '0000-00-00', NULL, '2018-04-23 16:47:09', '2018-04-27 02:39:33'),
 (4, 3423, 3, 3, 'manajer_keuangan@gmail.com', 'ee3ee6f00d2d5e2d7c028529cca6a311', 'aktif', '1', '0000-00-00', '', '2018-04-23 17:16:53', '2018-04-23 17:19:20'),
 (5, 123, 3, 4, 'staf_keuangan@gmail.com', 'ee3ee6f00d2d5e2d7c028529cca6a311', 'aktif', '1', '0000-00-00', 'e4da3b7fbbce2345d7772b0674a318d5.png', '2018-04-24 00:23:31', '2018-04-27 04:29:05'),
@@ -453,7 +554,8 @@ INSERT INTO `progress` (`kode_progress`, `id_pengguna`, `kode_fk`, `kode_nama_pr
 (72, 5, 24, 3, ' elik', '21:55:00', '2018-04-27', 'kegiatan', '2018-04-27 16:25:18', NULL),
 (73, 2, 33, 1, 'insert otomatis', '22:34:46', '2018-04-27', 'kegiatan', '2018-04-27 17:04:46', NULL),
 (74, 5, 32, 3, ' ffff', '09:30:00', '2018-04-28', 'kegiatan', '2018-04-28 04:00:18', NULL),
-(75, 5, 17, 3, ' f', '09:47:00', '2018-04-28', 'kegiatan', '2018-04-28 04:17:11', NULL);
+(75, 5, 17, 3, ' f', '09:47:00', '2018-04-28', 'kegiatan', '2018-04-28 04:17:11', NULL),
+(76, 2, 31, 1, 'bagus lah', '11:13:00', '2018-04-30', 'kegiatan', '2018-04-30 05:43:49', NULL);
 
 -- --------------------------------------------------------
 
@@ -502,6 +604,15 @@ ALTER TABLE `acc_kegiatan`
   ADD PRIMARY KEY (`kode_acc_kegiatan`),
   ADD KEY `kode_jabatan` (`id_pengguna`),
   ADD KEY `kode_jenis_kegiatan` (`kode_jenis_kegiatan`);
+
+--
+-- Indexes for table `akses_menu`
+--
+ALTER TABLE `akses_menu`
+  ADD PRIMARY KEY (`kode_akses_menu`),
+  ADD KEY `kode_unit` (`kode_unit`),
+  ADD KEY `kode_jabatan` (`kode_jabatan`),
+  ADD KEY `kode_menu` (`kode_menu`);
 
 --
 -- Indexes for table `barang`
@@ -571,6 +682,12 @@ ALTER TABLE `kegiatan`
   ADD KEY `no_identitas` (`id_pengguna`);
 
 --
+-- Indexes for table `menu`
+--
+ALTER TABLE `menu`
+  ADD PRIMARY KEY (`kode_menu`);
+
+--
 -- Indexes for table `nama_progress`
 --
 ALTER TABLE `nama_progress`
@@ -616,6 +733,11 @@ ALTER TABLE `unit`
 ALTER TABLE `acc_kegiatan`
   MODIFY `kode_acc_kegiatan` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
+-- AUTO_INCREMENT for table `akses_menu`
+--
+ALTER TABLE `akses_menu`
+  MODIFY `kode_akses_menu` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+--
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
@@ -624,7 +746,7 @@ ALTER TABLE `barang`
 -- AUTO_INCREMENT for table `captcha`
 --
 ALTER TABLE `captcha`
-  MODIFY `captcha_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=337;
+  MODIFY `captcha_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=380;
 --
 -- AUTO_INCREMENT for table `dokumen_prosedur`
 --
@@ -661,6 +783,11 @@ ALTER TABLE `jenis_kegiatan`
 ALTER TABLE `kegiatan`
   MODIFY `kode_kegiatan` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
+-- AUTO_INCREMENT for table `menu`
+--
+ALTER TABLE `menu`
+  MODIFY `kode_menu` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+--
 -- AUTO_INCREMENT for table `nama_progress`
 --
 ALTER TABLE `nama_progress`
@@ -679,7 +806,7 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT for table `progress`
 --
 ALTER TABLE `progress`
-  MODIFY `kode_progress` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `kode_progress` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 --
 -- AUTO_INCREMENT for table `unit`
 --
@@ -695,6 +822,14 @@ ALTER TABLE `unit`
 ALTER TABLE `acc_kegiatan`
   ADD CONSTRAINT `acc_kegiatan_ibfk_1` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id_pengguna`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `acc_kegiatan_ibfk_2` FOREIGN KEY (`kode_jenis_kegiatan`) REFERENCES `jenis_kegiatan` (`kode_jenis_kegiatan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `akses_menu`
+--
+ALTER TABLE `akses_menu`
+  ADD CONSTRAINT `akses_menu_ibfk_1` FOREIGN KEY (`kode_unit`) REFERENCES `unit` (`kode_unit`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `akses_menu_ibfk_2` FOREIGN KEY (`kode_jabatan`) REFERENCES `jabatan` (`kode_jabatan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `akses_menu_ibfk_3` FOREIGN KEY (`kode_menu`) REFERENCES `menu` (`kode_menu`);
 
 --
 -- Ketidakleluasaan untuk tabel `barang`
