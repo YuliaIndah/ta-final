@@ -128,17 +128,17 @@
           }
           if(in_array('4', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('PenggunaC/persetujuan_rab')?>">RAB</a></li>
+            <li> <a href="<?php echo site_url('BarangC/persetujuan_rab')?>">RAB</a></li>
             <?php
           }
           if(in_array('5', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('PenggunaC/persetujuan_barang')?>">Barang</a></li>
+            <li> <a href="<?php echo site_url('BarangC/persetujuan_barang')?>">Barang</a></li>
             <?php
           }
           if(in_array('17', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('PenggunaC/persetujuan_barang_staf')?>">Barang Staf</a></li>
+            <li> <a href="<?php echo site_url('BarangC/persetujuan_barang_staf')?>">Barang Staf</a></li>
             <?php
           }
           if(in_array('1', $menu) || in_array('2', $menu) || in_array('3', $menu) || in_array('4', $menu) || in_array('5', $menu) || in_array('17', $menu)){
@@ -165,12 +165,12 @@
           }
           if(in_array('8', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('PenggunaC/pengajuan_rab')?>">RAB</a></li>
+            <li> <a href="<?php echo site_url('BarangC/pengajuan_rab')?>">RAB</a></li>
             <?php
           }
           if(in_array('9', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('PenggunaC/pengajuan_barang')?>">Barang</a></li>
+            <li> <a href="<?php echo site_url('BarangC/pengajuan_barang')?>">Barang</a></li>
             <?php
           }
           ?>
@@ -202,7 +202,7 @@
           }
           if(in_array('18', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('PenggunaC/status_pengajuan_barang')?>">Barang</a></li>
+            <li> <a href="<?php echo site_url('BarangC/status_pengajuan_barang')?>">Barang</a></li>
             <?php
           }
           if(in_array('10', $menu) || in_array('11', $menu) || in_array('18', $menu)){
@@ -217,7 +217,7 @@
       if(in_array('12', $menu)){
         ?>
         <li>
-          <a href="<?php echo site_url('PenggunaC/kelola_barang')?>">
+          <a href="<?php echo site_url('BarangC/kelola_barang')?>">
             <i class="icon_pencil-edit"></i>
             <span>Kelola Barang</span>
           </a>
@@ -227,7 +227,7 @@
       if(in_array('13', $menu)){
         ?>
         <li>
-          <a href="<?php echo site_url('PenggunaC/klasifikasi_barang')?>">
+          <a href="<?php echo site_url('BarangC/klasifikasi_barang')?>">
             <i class="icon_tags_alt"></i>
             <span>Klasifikasi Barang</span>
           </a>
