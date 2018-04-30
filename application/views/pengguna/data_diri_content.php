@@ -3,7 +3,7 @@
     <!--overview start-->
     <div class="row">
       <div class="col-lg-12">
-        <h3 class="page-header" style="margin-top: 0;"><i class="fa fa-user"></i> Data Diri</h3>
+        <h3 class="page-header text-center" style="margin-top: 0;"> Data Diri</h3>
       </div>
     </div>
     <div class="row">
@@ -65,7 +65,7 @@
       <tr>
         <?php
         $tgl_lahir = $data_diri->tgl_lahir;
-        $new_tgl_lahir = date('d-m-Y', strtotime($tgl_lahir));
+        $new_tgl_lahir = date('d/m/Y', strtotime($tgl_lahir));
         ?>
         <td class="default" width="23%" style="padding-left: 30px;">Tanggal Lahir</td>
         <td>: &nbsp;<?php echo $new_tgl_lahir;?></td>
@@ -84,7 +84,11 @@
           href="javascript:;"
           data-jen_kel="<?php echo $data_diri->jen_kel;?>"
           data-tmp_lahir="<?php echo $data_diri->tmp_lahir;?>"
-          data-tgl_lahir="<?php echo $data_diri->tgl_lahir;?>"
+          <?php
+          $tgl_lahir = $data_diri->tgl_lahir;
+          $new_tgl_lahir = date('d/m/Y', strtotime($tgl_lahir));
+          ?>
+          data-tgl_lahir="<?php echo $new_tgl_lahir;?>"
           data-alamat="<?php echo $data_diri->alamat;?>"
           data-no_hp="<?php echo $data_diri->no_hp?>"
           data-toggle="modal" data-target="#edit-data">
@@ -137,7 +141,7 @@
             <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
             <h4 class="modal-title">Ubah Data</h4>
           </div>
-          <form class="form-horizontal" action="<?php echo base_url('KadepC/edit_data_diri')."/".$data_diri->no_identitas?>" method="post" enctype="multipart/form-data" role="form">
+          <form class="form-horizontal" action="<?php echo base_url('PenggunaC/edit_data_diri')."/".$data_diri->no_identitas?>" method="post" enctype="multipart/form-data" role="form">
             <div class="modal-body">
               <div class="form-group">
                 <label class="col-lg-4 col-sm-2 control-label">Jenis Kelamin</label>
@@ -206,8 +210,8 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="panel-body">
-              <?php echo form_open_multipart('KadepC/upload_image');?>
-              <form role="form" action="<?php echo base_url(); ?>KadepC/upload_image" method="post">
+              <?php echo form_open_multipart('PenggunaC/upload_image');?>
+              <form role="form" action="<?php echo base_url(); ?>PenggunaC/upload_image" method="post">
                 <div style="color: red;"><?php echo (isset($message))? $message : ""; ?></div>
                 <div class="form-group">
                   <label>Unggah Foto</label>

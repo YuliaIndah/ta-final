@@ -1,8 +1,10 @@
 <?php 
-function in_access(){
-    $ci=& get_instance();
-    if($ci->session->userdata('logged_in') != TRUE){
-        redirect('LoginC/logout');
+if ( ! function_exists('in_access')){
+    function in_access(){
+        $ci=& get_instance();
+        if($ci->session->userdata('logged_in') != TRUE){
+            redirect('LoginC/logout');
+        }
     }
 }
 

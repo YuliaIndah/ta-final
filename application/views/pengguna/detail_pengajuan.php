@@ -1,4 +1,4 @@
-<form class="form-horizontal" action="<?php echo base_url(); ?>KadepC/post_progress" method="post">
+<form class="form-horizontal" action="<?php echo base_url(); ?>KegiatanC/post_progress" method="post">
     <div class="form-group">
         <label class="control-label col-sm-5" for="nama_kegiatan" style="text-align: left;">Nama Kegiatan</label>
         <div class="col-sm-5">

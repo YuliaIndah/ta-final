@@ -57,10 +57,10 @@
                           </div>
                         </td>
                         <?php 
-                        $jabatan        = $UserM->get_data_pengajuan_by_id($kegiatan->kode_kegiatan)->result()[0];
-                        $unit           = $UserM->get_data_pengajuan_by_id($kegiatan->kode_kegiatan)->result()[0];
-                        $progress       = $UserM->get_progress($kegiatan->kode_kegiatan);
-                        $progress_tolak = $UserM->get_progress_tolak($kegiatan->kode_kegiatan);
+                        $jabatan        = $KegiatanM->get_data_pengajuan_by_id($kegiatan->kode_kegiatan)->result()[0];
+                        $unit           = $KegiatanM->get_data_pengajuan_by_id($kegiatan->kode_kegiatan)->result()[0];
+                        $progress       = $KegiatanM->get_progress($kegiatan->kode_kegiatan);
+                        $progress_tolak = $KegiatanM->get_progress_tolak($kegiatan->kode_kegiatan);
                         ?>
                         <td class="text-center"><?php echo $jabatan->nama;?></td>
                         <td class="text-center"><?php echo $jabatan->nama_jabatan." ".$unit->nama_unit;?></td>
@@ -85,19 +85,19 @@
                        <td class="text-center"><a target="_blank" href="<?php echo $link?>"><span><img src="<?php echo base_url()?>assets/image/logo/pdf.svg" style="height: 30px;"></span></a></td>
                        <td class="text-center">
                         <?php 
-                        $progress       = $UserM->get_progress($kegiatan->kode_kegiatan);
-                        $progress_tolak = $UserM->get_progress_tolak($kegiatan->kode_kegiatan);
+                        $progress       = $KegiatanM->get_progress($kegiatan->kode_kegiatan);
+                        $progress_tolak = $KegiatanM->get_progress_tolak($kegiatan->kode_kegiatan);
                         $own_id     = $data_diri->id_pengguna; //id sendri
                         $max        = $cek_max_pegawai->ranking; //id pengguna rank tertinggi
-                        $id_max     = $UserM->cek_id_by_rank_pegawai($max)->id_pengguna; //id yang rank nya max
+                        $id_max     = $KegiatanM->cek_id_by_rank_pegawai($max)->id_pengguna; //id yang rank nya max
                         $kode = $kegiatan->kode_kegiatan; 
-                        $own  = $UserM->get_own_progress($kode, $own_id);
+                        $own  = $KegiatanM->get_own_progress($kode, $own_id);
                           // echo $progress;
                           // echo $progress_tolak;
                         $id_staf_keu = $cek_id_staf_keu[0]->id_pengguna; 
-                        $progress_staf_keu = $UserM->get_own_progress($kode, $id_staf_keu);
+                        $progress_staf_keu = $KegiatanM->get_own_progress($kode, $id_staf_keu);
                         if($progress_staf_keu > 0){ //sudah ada input staf keu
-                          $progress_nama = $UserM->get_progress_by_id($id_staf_keu)->result()[0]->nama_progress;
+                          $progress_nama = $KegiatanM->get_progress_by_id($id_staf_keu)->result()[0]->nama_progress;
                           ?>
                           <a class="label label-warning" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress"><?php echo $progress_nama?></a>
                           <?php
@@ -108,9 +108,9 @@
                             <a class="label label-danger" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress"><b>Selesai</b></a>
                             <?php
                           }else{
-                           if($progress == 1){
-                          $input_id = $UserM->get_progress_who($kode)[0]->id_pengguna;//jika yang input dia sendiri
-                          if($input_id == $own_id && $id_max == $own_id){
+                           if($progress == 1){ //jika sudah punya porgress 1
+                          $input_id = $KegiatanM->get_progress_who($kode)[0]->id_pengguna;//jika yang input dia sendiri
+                          if($input_id == $own_id && $id_max == $own_id){ //yang inputin progress dia dan dia adalah max
                             ?>
                             <a class="label label-success" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress">Selesai</a>
                             <?php
@@ -140,13 +140,13 @@
                         <a href="#" disabled title="Sudah"><span class="glyphicon glyphicon-ok"></a>
                           <?php
                         }else{
-                         $progress_tolak = $UserM->get_progress_tolak($kegiatan->kode_kegiatan);
+                         $progress_tolak = $KegiatanM->get_progress_tolak($kegiatan->kode_kegiatan);
                          if($progress_tolak == 1){
                            ?>
                            <a href="#" id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Selesai" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
                            <?php
                          }else{
-                          $acc_atasan = $UserM->get_own_progress($kode, $kegiatan->pimpinan);
+                          $acc_atasan = $KegiatanM->get_own_progress($kode, $kegiatan->pimpinan);
                           if ($acc_atasan > 0){
                            ?>
                            <a href="#myModal" id="custId" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Masukkan Persetujuan" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
@@ -160,16 +160,16 @@
                      }
 
                    }else{
-                      $own_rank   = $UserM->cek_rank_by_id_pegawai($own_id)->ranking; //rank sendiri
+                      $own_rank   = $KegiatanM->cek_rank_by_id_pegawai($own_id)->ranking; //rank sendiri
                       $rank_next  = ((int)$own_rank + 1); //id yang punya rank sendri + 1
-                      $id_next    = $UserM->cek_id_by_rank_pegawai($rank_next)->id_pengguna; //id yang ranknya ranksendiri + 1
-                      $progress_id_next = $UserM->get_own_progress($kegiatan->kode_kegiatan, $id_next); //progress id yang ranknya ranksendiri + 1
+                      $id_next    = $KegiatanM->cek_id_by_rank_pegawai($rank_next)->id_pengguna; //id yang ranknya ranksendiri + 1
+                      $progress_id_next = $KegiatanM->get_own_progress($kegiatan->kode_kegiatan, $id_next); //progress id yang ranknya ranksendiri + 1
                       if($progress_id_next == "1"){
                        if($own > 0){?>
                        <a href="#" disabled title="Sudah"><span class="glyphicon glyphicon-ok"></a>
                         <?php
                       }else{
-                       $progress_tolak = $UserM->get_progress_tolak($kegiatan->kode_kegiatan);
+                       $progress_tolak = $KegiatanM->get_progress_tolak($kegiatan->kode_kegiatan);
                        if ($progress_tolak == 1) {
                          ?>
                          <a href="#" id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Selesai" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
@@ -249,7 +249,7 @@
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'KadepC/detail_pengajuan/'?>'+rowid,
+              url : '<?php echo base_url().'KegiatanC/detail_pengajuan/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal
@@ -265,7 +265,7 @@ $(document).ready(function(){
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'KadepC/detail_kegiatan/'?>'+rowid,
+              url : '<?php echo base_url().'KegiatanC/detail_kegiatan/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal

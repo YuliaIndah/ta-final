@@ -25,7 +25,7 @@
         </div>
         <div class="panel-body">
           <div class="col-sm-10">
-           <form role="form" method="post" action="<?php echo base_url();?>KadepC/post_ganti_password">
+           <form role="form" method="post" action="<?php echo base_url();?>PenggunaC/post_ganti_password">
             <div class="form-group row">
               <label for="sandi_lama" class="col-sm-2 col-form-label">Kata Sandi Lama</label>
               <div class="col-sm-4">

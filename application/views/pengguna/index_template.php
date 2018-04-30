@@ -44,7 +44,7 @@
      </div>
 
      <!--logo start-->
-     <a href="index.html" class="logo"><!-- <img style="height: 40px;" src="<?php echo base_url();?>assets/image/logo/logo.png"> -->Kepala <span class="lite">Departemen</span></a>
+     <a href="index.html" class="logo"><?php echo $data_diri->nama_jabatan." ";?><span class="lite"><?php echo $data_diri->nama_unit?></span></a>
      <!--logo end-->
      <div class="top-nav notification-row">                
       <!-- notificatoin dropdown start-->
@@ -71,10 +71,10 @@
        <ul class="dropdown-menu extended logout">
         <div class="log-arrow-up"></div>
         <li class="eborder-top">
-          <a href="<?php echo site_url('KadepC/data_diri')?>"><i class="icon_profile"></i> Data Diri</a>
+          <a href="<?php echo site_url('PenggunaC/data_diri')?>"><i class="icon_profile"></i> Data Diri</a>
         </li>
         <li>
-          <a href="<?php echo site_url('KadepC/pengaturan_akun')?>"><i class="icon_cogs"></i> Pengaturan Akun</a>
+          <a href="<?php echo site_url('PenggunaC/pengaturan_akun')?>"><i class="icon_cogs"></i> Pengaturan Akun</a>
         </li>
         <li>
           <a href="<?php echo site_url('LoginC/logout')?>"><i class="icon_key_alt"></i> Log Out</a>
@@ -93,7 +93,7 @@
     <!-- sidebar menu start-->
     <ul class="sidebar-menu">                
       <li>
-        <a href="<?php echo site_url('KadepC/')?>">
+        <a href="<?php echo site_url('PenggunaC/')?>">
           <i class="icon_house_alt"></i>
           <span>Beranda</span>
         </a>
@@ -113,17 +113,17 @@
           }
           if(in_array('1', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('PenggunaC/persetujuan_kegiatan_mahasiswa')?>">Kegiatan Mahasiswa</a></li>
+            <li> <a href="<?php echo site_url('KegiatanC/persetujuan_kegiatan_mahasiswa')?>">Kegiatan Mahasiswa</a></li>
             <?php
           }
           if(in_array('2', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('PenggunaC/persetujuan_kegiatan_pegawai')?>">Kegiatan Pegawai</a></li>
+            <li> <a href="<?php echo site_url('KegiatanC/persetujuan_kegiatan_pegawai')?>">Kegiatan Pegawai</a></li>
             <?php
           }
           if(in_array('3', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('PenggunaC/persetujuan_kegiatan_staf')?>">Kegiatan Staf</a></li>
+            <li> <a href="<?php echo site_url('KegiatanC/persetujuan_kegiatan_staf')?>">Kegiatan Staf</a></li>
             <?php
           }
           if(in_array('4', $menu)){
@@ -212,7 +212,7 @@
         <?php
       }
       ?>
-      
+
       <?php
       if(in_array('12', $menu)){
         ?>
@@ -383,7 +383,7 @@
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'KadepC/detail_progress/'?>'+rowid,
+              url : '<?php echo base_url().'KegiatanC/detail_progress/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal

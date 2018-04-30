@@ -47,8 +47,8 @@
                   <tbody>
                     <?php
                     foreach ($data_pengajuan_kegiatan_mahasiswa as $kegiatan) {
-                      $jabatan        = $UserM->get_data_pengajuan_by_id($kegiatan->kode_kegiatan)->result()[0];
-                      $unit           = $UserM->get_data_pengajuan_by_id($kegiatan->kode_kegiatan)->result()[0];
+                      $jabatan        = $KegiatanM->get_data_pengajuan_by_id($kegiatan->kode_kegiatan)->result()[0];
+                      $unit           = $KegiatanM->get_data_pengajuan_by_id($kegiatan->kode_kegiatan)->result()[0];
                       ?>
                       <tr>
                         <td class="text-center relative">
@@ -81,15 +81,15 @@
                        <td><?php echo $kegiatan->nama_jenis_kegiatan;?></td>
                        <td class="text-center">
                         <?php 
-                        $progress       = $UserM->get_progress($kegiatan->kode_kegiatan);
-                        $progress_tolak = $UserM->get_progress_tolak($kegiatan->kode_kegiatan);
+                        $progress       = $KegiatanM->get_progress($kegiatan->kode_kegiatan);
+                        $progress_tolak = $KegiatanM->get_progress_tolak($kegiatan->kode_kegiatan);
                           // echo $progress;
                           // echo $progress_tolak;
                         $kode = $kegiatan->kode_kegiatan; 
                         $id_staf_keu = $cek_id_staf_keu[0]->id_pengguna; 
-                        $progress_staf_keu = $UserM->get_own_progress($kode, $id_staf_keu);
+                        $progress_staf_keu = $KegiatanM->get_own_progress($kode, $id_staf_keu);
                         if($progress_staf_keu > 0){ //sudah ada input staf keu
-                          $progress_nama = $UserM->get_progress_by_id($id_staf_keu)->result()[0]->nama_progress;
+                          $progress_nama = $KegiatanM->get_progress_by_id($id_staf_keu)->result()[0]->nama_progress;
                           ?>
                           <a class="label label-warning" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress"><?php echo $progress_nama?></a>
                           <?php
@@ -122,21 +122,21 @@
                       <?php 
                       $own_id     = $data_diri->id_pengguna; //id sendri
                       $max        = $cek_max->ranking; //id pengguna rank tertinggi
-                      $id_max     = $UserM->cek_id_by_rank($max)->id_pengguna; //id yang rank nya max
+                      $id_max     = $KegiatanM->cek_id_by_rank_mhs($max)->id_pengguna; //id yang rank nya max
 
                       $kode = $kegiatan->kode_kegiatan; 
-                      $own  = $UserM->get_own_progress($kode, $own_id);
+                      $own  = $KegiatanM->get_own_progress($kode, $own_id);
 
                       if($own_id == $id_max){
                        if($own > 0){ //SUDAH INPUT 
                         ?>
-                        <a href="#" disabled title="Sudah"><span class="glyphicon glyphicon-ok"></a>
+                        <a disabled title="Sudah"><span class="glyphicon glyphicon-ok"></a>
                           <?php
                         }else{
-                         $progress_tolak = $UserM->get_progress_tolak($kegiatan->kode_kegiatan);
+                         $progress_tolak = $KegiatanM->get_progress_tolak($kegiatan->kode_kegiatan);
                          if($progress_tolak == 1){
                            ?>
-                           <a href="#" id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Selesai" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+                           <a id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Selesai" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
                            <?php
                          }else{
                            ?>
@@ -146,19 +146,19 @@
                        }
 
                      }else{
-                      $own_rank   = $UserM->cek_rank_by_id($own_id)->ranking; //rank sendiri
+                      $own_rank   = $KegiatanM->cek_rank_by_id_mhs($own_id)->ranking; //rank sendiri
                       $rank_next  = ((int)$own_rank + 1); //id yang punya rank sendri + 1
-                      $id_next    = $UserM->cek_id_by_rank($rank_next)->id_pengguna; //id yang ranknya ranksendiri + 1
-                      $progress_id_next = $UserM->get_own_progress($kegiatan->kode_kegiatan, $id_next); //progress id yang ranknya ranksendiri + 1
+                      $id_next    = $KegiatanM->cek_id_by_rank_mhs($rank_next)->id_pengguna; //id yang ranknya ranksendiri + 1
+                      $progress_id_next = $KegiatanM->get_own_progress($kegiatan->kode_kegiatan, $id_next); //progress id yang ranknya ranksendiri + 1
                       if($progress_id_next == "1"){
                        if($own > 0){?>
-                       <a href="#" disabled title="Sudah"><span class="glyphicon glyphicon-ok"></a>
+                       <a disabled title="Sudah"><span class="glyphicon glyphicon-ok"></a>
                         <?php
                       }else{
-                       $progress_tolak = $UserM->get_progress_tolak($kegiatan->kode_kegiatan);
+                       $progress_tolak = $KegiatanM->get_progress_tolak($kegiatan->kode_kegiatan);
                        if ($progress_tolak == 1) {
                          ?>
-                         <a href="#" id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Selesai" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+                         <a id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Selesai" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
                          <?php
                        }else{
                          ?>
@@ -168,7 +168,7 @@
                      }
                    }else{
                     ?>
-                    <a href="#" id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Selesai" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Selesai" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
                     <?php
                   }
                 }
@@ -235,7 +235,7 @@
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'KadepC/detail_pengajuan/'?>'+rowid,
+              url : '<?php echo base_url().'KegiatanC/detail_pengajuan/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal
@@ -252,7 +252,7 @@ $(document).ready(function(){
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'KadepC/detail_kegiatan/'?>'+rowid,
+              url : '<?php echo base_url().'KegiatanC/detail_kegiatan/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal
