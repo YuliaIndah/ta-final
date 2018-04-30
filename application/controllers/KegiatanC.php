@@ -78,16 +78,53 @@ class KegiatanC extends CI_Controller {
 		$kode_jabatan = $this->session->userdata('kode_jabatan');
 
 		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
-		$data['title'] = "Persetujuan Kegiatan Pegawai | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
+		$data['title'] = "Persetujuan Kegiatan Staf | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
 
 		$this->data['data_pengajuan_kegiatan'] = $this->KegiatanM->get_data_pengajuan_staf($kode_unit, $kode_jabatan)->result();
 		$this->data['KegiatanM'] = $this->KegiatanM ;
-		// $this->data['Man_keuanganM'] = $this->Man_keuanganM ;		
 		$this->data['data_diri'] = $data_diri;  	//get data diri buat nampilin nama di pjok kanan
 		$data['body'] = $this->load->view('pengguna/persetujuan_kegiatan_staf_content', $this->data, true) ;
 		$this->load->view('pengguna/index_template', $data);
 	}
 
+
+	public function pengajuan_kegiatan_mahasiswa(){
+		$data['menu'] = $this->data_menu;
+		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$data['title'] = "Pengajuan Kegiatan Mahasiswa | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
+
+		$this->data['data_kegiatan'] = $this->UserM->get_kegiatan_pegawai()->result();	//menampilkan kegiatan yang diajukan user sebagai pegwai
+		$this->data['cek_id_staf_keu'] = $this->UserM->cek_id_staf_keu()->result();	
+		$this->data['data_diri'] =	$data_diri;  	//get data diri buat nampilin nama di pjok kanan
+		$this->data['KegiatanM'] = $this->KegiatanM ;	
+		$this->data['cek_id_staf_keu'] = $this->UserM->cek_id_staf_keu()->result();
+		$data['body'] = $this->load->view('pengguna/pengajuan_kegiatan_mahasiswa_content', $this->data, true) ;
+		$this->load->view('pengguna/index_template', $data);
+	}
+
+	public function pengajuan_kegiatan_pegawai(){ //halaman pengajuan kegiatan
+		$data['menu'] = $this->data_menu;
+		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$data['title'] = "Persetujuan Kegiatan Staf | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
+
+		$this->data['data_diri'] = $data_diri; //get data diri buat nampilin nama di pjok kanan
+		$this->data['cek_max_pegawai'] = $this->KegiatanM->cek_max_pegawai();	
+		$this->data['cek_id_staf_keu'] = $this->KegiatanM->cek_id_staf_keu()->result();
+		$this->data['data_kegiatan'] = $this->KegiatanM->get_kegiatan_pegawai()->result();	//menampilkan kegiatan yang diajukan user sebagai pegwai
+		$this->data['KegiatanM'] = $this->KegiatanM ;	
+		$data['body'] = $this->load->view('pengguna/pengajuan_kegiatan_pegawai_content', $this->data, true);
+		$this->load->view('pengguna/index_template', $data);
+	}
+
+	public function hapus_pengajuan($kode_kegiatan){//hapus pengajuan kegiatan
+		if($this->KadepM->hapus_pengajuan($kode_kegiatan)){
+			$this->session->set_flashdata('sukses','Data anda berhasil dihapus');
+			redirect_back();
+		}else{
+			$this->session->set_flashdata('error','Data anda tidak berhasil dihapus');
+			redirect_back();
+		}
+	}
 
 
 	// =================================POST+POST+POST+POST=================================
@@ -133,6 +170,128 @@ class KegiatanC extends CI_Controller {
 			}else{
 				$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
 				redirect_back(); //kembali ke halaman sebelumnya -> helper
+			}
+		}
+	}
+
+	public function post_pengajuan_kegiatan_mahasiswa(){ //fungsi post pengajuan kegiatan mahasiswa
+		$this->form_validation->set_rules('id_pengguna', 'ID Pengguna','required');
+		$this->form_validation->set_rules('kode_jenis_kegiatan', 'Kode Jenis Kegiatan','required');
+		$this->form_validation->set_rules('nama_kegiatan', 'Nama Kegiatan','required');
+		$this->form_validation->set_rules('tgl_kegiatan', 'Tanggal Kegiatan','required');
+		$this->form_validation->set_rules('tgl_selesai_kegiatan', 'Tanggal Selesai Kegiatan','required');
+		$this->form_validation->set_rules('dana_diajukan', 'Dana Diajukan','required');
+		$this->form_validation->set_rules('tgl_pengajuan', 'Tanggal Pengajuan','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data Pengajuan Kegiatan anda tidak berhasil ditambahkan1');
+			redirect('KegiatanC/pengajuan_kegiatan_mahasiswa');
+		}else{
+			$id_pengguna 			= $_POST['id_pengguna'];
+			$kode_jenis_kegiatan 	= $_POST['kode_jenis_kegiatan'];
+			$nama_kegiatan 			= $_POST['nama_kegiatan'];
+			$tgl_kegiatan 			= date('Y-m-d',strtotime($_POST['tgl_kegiatan']));
+			$tgl_selesai_kegiatan 	= date('Y-m-d',strtotime($_POST['tgl_selesai_kegiatan']));
+			$dana_diajukan 			= $_POST['dana_diajukan'];
+			$tgl_pengajuan 			= $_POST['tgl_pengajuan'];
+
+			$data_pengajuan_kegiatan = array(
+				'id_pengguna' 			=> $id_pengguna,
+				'kode_jenis_kegiatan' 	=> $kode_jenis_kegiatan,
+				'nama_kegiatan' 		=> $nama_kegiatan,
+				'tgl_kegiatan'			=> $tgl_kegiatan,
+				'tgl_selesai_kegiatan'	=> $tgl_selesai_kegiatan,
+				'dana_diajukan' 		=> $dana_diajukan,
+				'tgl_pengajuan'			=> $tgl_pengajuan);
+
+			$insert_id = $this->KegiatanM->insert_pengajuan_kegiatan($data_pengajuan_kegiatan);
+				if($insert_id){ //get last insert id
+					$upload = $this->KegiatanM->upload(); // lakukan upload file dengan memanggil function upload yang ada di UserM.php
+				if($upload['result'] == "success"){ // Jika proses upload sukses
+					$this->KegiatanM->save($upload,$insert_id); // Panggil function save yang ada di UserM.php untuk menyimpan data ke database
+				}else{ // Jika proses upload gagal
+					$data['message'] = $upload['error']; // Ambil pesan error uploadnya untuk dikirim ke file form dan ditampilkan
+					$this->KegiatanM->delete($insert_id);//hapus data pengajuan kegiatan ketka gagal upload file
+					$this->session->set_flashdata('error','Data Pengajuan Kegiatan anda tidak berhasil ditambahkan2');
+					redirect('KegiatanC/pengajuan_kegiatan_mahasiswa');
+				}
+				$this->session->set_flashdata('sukses','Data Pengajuan Kegiatan anda berhasil ditambahkan');
+				redirect('KegiatanC/pengajuan_kegiatan_mahasiswa');
+			}else{
+				$this->session->set_flashdata('error','Data Pengajuan Kegiatan anda tidak berhasil ditambahkan3');
+				redirect('KegiatanC/pengajuan_kegiatan_mahasiswa');
+			}
+		}
+	}
+
+	public function post_pengajuan_kegiatan_pegawai(){ //fungsi post pengajuan kegiatan pegawai
+		$this->form_validation->set_rules('id_pengguna', 'ID Pengguna','required');
+		$this->form_validation->set_rules('kode_jenis_kegiatan', 'Kode Jenis Kegiatan','required');
+		$this->form_validation->set_rules('nama_kegiatan', 'Nama Kegiatan','required');
+		$this->form_validation->set_rules('tgl_kegiatan', 'Tanggal Kegiatan','required');
+		$this->form_validation->set_rules('tgl_selesai_kegiatan', 'Tanggal Selesai Kegiatan','required');
+		$this->form_validation->set_rules('dana_diajukan', 'Dana Diajukan','required');
+		$this->form_validation->set_rules('tgl_pengajuan', 'Tanggal Pengajuan','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data Pengajuan Kegiatan anda tidak berhasil ditambahkan');
+			redirect('KegiatanC/pengajuan_kegiatan_pegawai');
+		}else{
+			$id_pengguna 	       	= $_POST['id_pengguna'];
+			$kode_jenis_kegiatan 	= $_POST['kode_jenis_kegiatan'];
+			$nama_kegiatan 			= $_POST['nama_kegiatan'];
+			$tgl_kegiatan 			= date('Y-m-d',strtotime($_POST['tgl_kegiatan']));
+			$tgl_selesai_kegiatan 	= date('Y-m-d',strtotime($_POST['tgl_selesai_kegiatan']));
+			$dana_diajukan 			= $_POST['dana_diajukan'];
+			$tgl_pengajuan 			= $_POST['tgl_pengajuan'];
+
+			$data_pengajuan_kegiatan = array(
+				'id_pengguna' 			=> $id_pengguna,
+				'kode_jenis_kegiatan' 	=> $kode_jenis_kegiatan,
+				'nama_kegiatan' 		=> $nama_kegiatan,
+				'tgl_kegiatan'			=> $tgl_kegiatan,
+				'tgl_selesai_kegiatan'	=> $tgl_selesai_kegiatan,
+				'dana_diajukan' 		=> $dana_diajukan,
+				'tgl_pengajuan'			=> $tgl_pengajuan,
+				'pimpinan'				=> $id_pengguna);
+
+			
+
+			$insert_id = $this->KegiatanM->insert_pengajuan_kegiatan($data_pengajuan_kegiatan);
+			if($insert_id){ //get last insert id
+				$upload = $this->KegiatanM->upload(); // lakukan upload file dengan memanggil function upload yang ada di UserM.php
+				if($upload['result'] == "success"){ // Jika proses upload sukses
+					$this->KegiatanM->save($upload,$insert_id); // Panggil function save yang ada di UserM.php untuk menyimpan data ke database
+
+					$format_tgl 	= "%Y-%m-%d";
+					$tgl_progress 	= mdate($format_tgl);
+					$format_waktu 	= "%H:%i:%s";
+					$waktu_progress	= mdate($format_waktu);
+
+					$kode_nama_progress	= "1";
+					$komentar			= "insert otomatis";
+					$jenis_progress		= "kegiatan";
+
+					$data = array(
+						'id_pengguna	' 			=> $id_pengguna	,
+						'kode_fk'				=> $insert_id,
+						'kode_nama_progress' 	=> $kode_nama_progress,
+						'komentar'				=> $komentar,
+						'jenis_progress'		=> $jenis_progress,
+						'tgl_progress'			=> $tgl_progress,
+						'waktu_progress'		=> $waktu_progress
+
+					);
+					$this->UserM->insert_progress($data); //insert progress langsung ketika mengajukan kegiatan untuk manajer, kepala, dan pimpinan yang lain
+				}else{ // Jika proses upload gagal
+					$data['message'] = $upload['error']; // Ambil pesan error uploadnya untuk dikirim ke file form dan ditampilkan
+					$this->KegiatanM->delete($insert_id);//hapus data pengajuan kegiatan ketka gagal upload file
+					$this->session->set_flashdata('error','Data Pengajuan Kegiatan anda tidak berhasil ditambahkan');
+					redirect('KegiatanC/pengajuan_kegiatan_pegawai');
+				}
+				$this->session->set_flashdata('sukses','Data Pengajuan Kegiatan anda berhasil ditambahkan');
+				redirect('KegiatanC/pengajuan_kegiatan_pegawai');
+			}else{
+				$this->session->set_flashdata('error','Data Pengajuan Kegiatan anda tidak berhasil ditambahkan');
+				redirect('KegiatanC/pengajuan_kegiatan_pegawai');
 			}
 		}
 	}

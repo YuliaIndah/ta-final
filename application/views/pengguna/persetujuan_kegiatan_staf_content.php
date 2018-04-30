@@ -28,9 +28,6 @@
         <div class="card-header">
           <div class="card-body">
             <div class="table-responsive">
-              <?php
-                  // var_dump($detail_kegiatan);
-              ?>
               <table id="example" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
                 <thead>
                  <tr class="text-center">
@@ -49,8 +46,8 @@
                 <?php
                 // print_r($data_pengajuan_kegiatan);
                 foreach ($data_pengajuan_kegiatan as $kegiatan) {
-                  $jabatan        = $UserM->get_data_pengajuan_by_id_staf($kegiatan->kode_kegiatan)->result();
-                  $unit           = $UserM->get_data_pengajuan_by_id_staf($kegiatan->kode_kegiatan)->result();
+                  $jabatan        = $KegiatanM->get_data_pengajuan_by_id_staf($kegiatan->kode_kegiatan)->result();
+                  $unit           = $KegiatanM->get_data_pengajuan_by_id_staf($kegiatan->kode_kegiatan)->result();
                   // print_r($kegiatan->kode_kegiatan);
                   ?>
                   <tr>
@@ -60,8 +57,8 @@
                         <a href="#myModal1" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail kegiatan"><small class="kecil">Lihat detail</small></a>
                       </div>
                     </td>
-                    <td><?php echo $kegiatan->nama;?></td>
-                    <td><?php echo $kegiatan->nama_jabatan;?></td>
+                    <td class="text-center"><?php echo $kegiatan->nama;?></td>
+                    <td class="text-center"><?php echo $kegiatan->nama_jabatan;?></td>
                     <!-- <td class="text-center"><?php echo $jabatan->nama;?></td> -->
                     <!-- <td class="text-center"><?php echo $jabatan->nama_jabatan." ".$unit->nama_unit;?></td> -->
                     <?php 
@@ -87,8 +84,8 @@
                    <!-- <td><?php echo $kegiatan->nama_jabatan." ".$kegiatan->nama_unit;?></td> -->
                    <td class="text-center">
                     <?php 
-                    $progress       = $UserM->get_progress($kegiatan->kode_kegiatan);
-                    $progress_tolak = $UserM->get_progress_tolak($kegiatan->kode_kegiatan);
+                    $progress       = $KegiatanM->get_progress($kegiatan->kode_kegiatan);
+                    $progress_tolak = $KegiatanM->get_progress_tolak($kegiatan->kode_kegiatan);
                           // echo $progress;
                           // echo $progress_tolak;
                     if($progress_tolak == 1){
@@ -116,11 +113,11 @@
                   <?php 
                   $kode = $kegiatan->kode_kegiatan;
                   $id   = $data_diri->id_pengguna;
-                  $own  = $UserM->get_own_progress($kode, $id);
+                  $own  = $KegiatanM->get_own_progress($kode, $id);
                         // print_r($own);
                   if($own > 0){
                     ?>
-                    <a href="#" disabled title="Sudah"><span class="glyphicon glyphicon-ok"></a>
+                    <a disabled title="Sudah"><span class="glyphicon glyphicon-ok"></a>
                       <?php
                     }elseif ($own == 0) {
                       ?>
@@ -191,7 +188,7 @@
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'Man_keuanganC/detail_pengajuan/'?>'+rowid,
+              url : '<?php echo base_url().'KegiatanC/detail_pengajuan/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal
@@ -207,7 +204,7 @@
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'Man_keuanganC/detail_kegiatan/'?>'+rowid,
+              url : '<?php echo base_url().'KegiatanC/detail_kegiatan/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal

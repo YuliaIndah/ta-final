@@ -156,11 +156,11 @@
           <span class="menu-arrow arrow_carrot-right"></span>
         </a>
         <ul class="sub">
-          <li> <a href="<?php echo site_url('PenggunaC/pengajuan_kegiatan_pegawai')?>">Kegiatan Pegawai</a></li>
+          <li> <a href="<?php echo site_url('KegiatanC/pengajuan_kegiatan_pegawai')?>">Kegiatan Pegawai</a></li>
           <?php
           if(in_array('6', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('PenggunaC/pengajuan_kegiatan_mahasiswa')?>">Kegiatan Mahasiswa</a></li>
+            <li> <a href="<?php echo site_url('KegiatanC/pengajuan_kegiatan_mahasiswa')?>">Kegiatan Mahasiswa</a></li>
             <?php
           }
           if(in_array('8', $menu)){
@@ -344,6 +344,7 @@
         $('#nama_progress').DataTable();
         $('#persetujuan_kegiatan').DataTable();
         $('#example').DataTable();
+        $('#example1').DataTable();
         $('#prosedur').DataTable();
 
       } 

@@ -151,6 +151,49 @@
 		}	
 	}
 
+	public function insert_pengajuan_kegiatan($data){   //post pengguna_jabatan
+		if($this->db->insert('kegiatan', $data)){
+			return $this->db->insert_id(); //return last insert ID
+		} 
+	}  
+
+	public function save($upload,$insert_id){ // Fungsi untuk menyimpan data ke database
+		$data = array(
+			'kode_kegiatan' => $insert_id, //last insert id
+			'nama_file' 	=> $upload['file']['file_name'],
+			'ukuran_file' 	=> $upload['file']['file_size']
+		);
+		
+		$this->db->insert('file_upload', $data);
+	}
+
+	public function delete($id){ //hapus data pengajuan kegiatan ketika gagal upload file
+		$this->db->where('kode_kegiatan', $id);
+		$this->db->delete('kegiatan');
+		return "berhasil delete";
+	}
+
+	public function upload(){ // Fungsi untuk upload file ke folder
+		$config['upload_path'] = './assets/file_upload';
+		$config['allowed_types'] = 'pdf';
+		$config['max_size']	= '';
+		$config['remove_space'] = TRUE;
+		$config['encrypt_name'] = FALSE;
+		$config['overwrite'] = TRUE;
+		$new_name = md5($id_pengguna);
+		$config['file_name'] = $new_name;
+
+		$this->load->library('upload', $config); // Load konfigurasi uploadnya
+		if($this->upload->do_upload('file_upload')){ // Lakukan upload dan Cek jika proses upload berhasil
+			// Jika berhasil :
+			$return = array('result' => 'success', 'file' => $this->upload->data(), 'error' => '');
+			return $return;
+		}else{
+			// Jika gagal :
+			$return = array('result' => 'failed', 'file' => '', 'error' => $this->upload->display_errors());
+			return $return;
+		}
+	}
 
 	// Kegiatan Pegawai
 	public function cek_max_pegawai(){
@@ -178,7 +221,6 @@
 		$this->db->where('progress.jenis_progress = "kegiatan"');
 		$this->db->where('progress.kode_nama_progress = "1"');//diterima
 		return $query = $this->db->get()->result();
-		// return $query->num_rows();
 	}
 
 	public function cek_rank_by_id_pegawai($id_pengguna){
@@ -190,6 +232,28 @@
 		}else{
 			return "data tidak ada";
 		}	
+	}
+
+	public function get_kegiatan_pegawai(){ //menampilkan kegiatan yang diajukan user sebagai pegwai
+		$id_pengguna = $this->session->userdata('id_pengguna');
+		$this->db->select('*');
+		$this->db->from('kegiatan');
+		$this->db->join('pengguna', 'pengguna.id_pengguna = kegiatan.id_pengguna');
+		$this->db->join('file_upload', 'kegiatan.kode_kegiatan = file_upload.kode_kegiatan');
+		$this->db->where('pengguna.id_pengguna', $id_pengguna);
+
+		$query = $this->db->get();
+		if($query){
+			return $query;
+		}else{
+			return null;
+		}
+	} 
+
+	public function hapus_pengajuan($kode_kegiatan){//hapus persetujuan kegiatan
+		$this->db->where('kode_kegiatan', $kode_kegiatan);
+		$this->db->delete('kegiatan');
+		return TRUE;
 	}
 
 
@@ -215,4 +279,22 @@
 			return null;
 		}
 	}
+
+	public function get_data_pengajuan_by_id_staf($id){ //ambil data pengajuan sesuai id
+		$this->db->select('*');
+		$this->db->from('kegiatan');
+		$this->db->join('jenis_kegiatan', 'jenis_kegiatan.kode_jenis_kegiatan = kegiatan.kode_jenis_kegiatan');
+		$this->db->join('file_upload', 'file_upload.kode_kegiatan = kegiatan.kode_kegiatan');
+		$this->db->join('pengguna', 'pengguna.id_pengguna = kegiatan.id_pengguna');
+		$this->db->join('data_diri', 'pengguna.no_identitas = data_diri.no_identitas');
+		$this->db->join('jabatan', 'jabatan.kode_jabatan = pengguna.kode_jabatan');
+		$this->db->join('unit', 'unit.kode_unit = pengguna.kode_unit');
+		$this->db->where('kegiatan.kode_kegiatan', $id);
+		$query = $this->db->get();
+		if($query){
+			return $query;
+		}else{
+			return null;
+		}
+	}		
 }

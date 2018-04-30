@@ -71,19 +71,19 @@
                           
                           <td class="text-center">
                             <?php 
-                            $progress       = $UserM->get_progress($kegiatan->kode_kegiatan);
-                            $progress_tolak = $UserM->get_progress_tolak($kegiatan->kode_kegiatan);
+                            $progress       = $KegiatanM->get_progress($kegiatan->kode_kegiatan);
+                            $progress_tolak = $KegiatanM->get_progress_tolak($kegiatan->kode_kegiatan);
                         $kode = $kegiatan->kode_kegiatan; 
                         $own_id     = $data_diri->id_pengguna; //id sendri
                         $max        = $cek_max_pegawai->ranking; //id pengguna rank tertinggi
-                        $id_max     = $UserM->cek_id_by_rank_pegawai($max)->id_pengguna; //id yang rank nya max
-                        $own  = $UserM->get_own_progress($kode, $own_id);
+                        $id_max     = $KegiatanM->cek_id_by_rank_pegawai($max)->id_pengguna; //id yang rank nya max
+                        $own  = $KegiatanM->get_own_progress($kode, $own_id);
                           // echo $progress;
                           // echo $progress_tolak;
                         $id_staf_keu = $cek_id_staf_keu[0]->id_pengguna; 
-                        $progress_staf_keu = $UserM->get_own_progress($kode, $id_staf_keu);
+                        $progress_staf_keu = $KegiatanM->get_own_progress($kode, $id_staf_keu);
                        if($progress_staf_keu > 0){ //sudah ada input staf keu
-                        $progress_nama = $UserM->get_progress_by_id($id_staf_keu)->result()[0]->nama_progress;
+                        $progress_nama = $KegiatanM->get_progress_by_id($id_staf_keu)->result()[0]->nama_progress;
                         ?>
                         <a class="label label-warning" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress"><?php echo $progress_nama?></a>
                         <?php
@@ -94,7 +94,7 @@
                           <?php
                         }else{
                          if($progress == 1){
-                          $input_id = $UserM->get_progress_who($kode)[0]->id_pengguna;//jika yang input dia sendiri
+                          $input_id = $KegiatanM->get_progress_who($kode)[0]->id_pengguna;//jika yang input dia sendiri
                           if($input_id == $own_id && $id_max == $own_id){
                             ?>
                             <a class="label label-success" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress">Selesai</a>
@@ -176,8 +176,8 @@
               <li>Data yang sudah mendapat persetujuan <b>tidak dapat diubah</b>.</li>
             </ol>
           </div>
-          <?php echo form_open_multipart('KadepC/post_pengajuan_kegiatan_pegawai');?>
-          <form role="form" action="<?php echo base_url(); ?>KadepC/post_pengajuan_kegiatan_pegawai" method="post">
+          <?php echo form_open_multipart('KegiatanC/post_pengajuan_kegiatan_pegawai');?>
+          <form role="form" action="<?php echo base_url(); ?>KegiatanC/post_pengajuan_kegiatan_pegawai" method="post">
             <!-- Alert -->
             <!-- sampai sini -->
             <div class="form-group">
