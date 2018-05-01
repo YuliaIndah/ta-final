@@ -120,8 +120,8 @@
           <h4 class="modal-title">Tambah Jabatan</h4>
         </div>
         <div class="modal-body">
-          <?php echo form_open_multipart('KadepC/tambah_jabatan');?>
-          <form role="form" action="<?php echo base_url(); ?>KadepC/tambah_jabatan" method="post">
+          <?php echo form_open_multipart('PenggunaC/tambah_jabatan');?>
+          <form role="form" action="<?php echo base_url(); ?>PenggunaC/tambah_jabatan" method="post">
             <div class="form-group">
               <label>Nama Jabatan</label>
               <input class="form-control" placeholder="Nama Jabatan" type="text" id="nama_jabatan" name="nama_jabatan" required>
@@ -206,8 +206,8 @@
         <h4 class="modal-title">Tambah Unit</h4>
       </div>
       <div class="modal-body">
-        <?php echo form_open_multipart('KadepC/tambah_unit');?>
-        <form role="form" action="<?php echo base_url(); ?>KadepC/tambah_unit" method="post">
+        <?php echo form_open_multipart('PenggunaC/tambah_unit');?>
+        <form role="form" action="<?php echo base_url(); ?>PenggunaC/tambah_unit" method="post">
           <div class="form-group">
             <label>Nama Unit</label>
             <input class="form-control" placeholder="Nama Unit" type="text" id="nama_unit" name="nama_unit" required>
@@ -291,8 +291,8 @@
         <h4 class="modal-title">Tambah Jenis Barang</h4>
       </div>
       <div class="modal-body">
-        <?php echo form_open_multipart('KadepC/tambah_jenis_barang');?>
-        <form role="form" action="<?php echo base_url(); ?>KadepC/tambah_jenis_barang" method="post">
+        <?php echo form_open_multipart('PenggunaC/tambah_jenis_barang');?>
+        <form role="form" action="<?php echo base_url(); ?>PenggunaC/tambah_jenis_barang" method="post">
           <div class="form-group">
             <label>Nama Jenis Barang</label>
             <input class="form-control" placeholder="Nama Jenis Barang" type="text" id="nama_jenis_barang" name="nama_jenis_barang" required>
@@ -375,8 +375,8 @@
         <h4 class="modal-title">Tambah Jenis Kegiatan</h4>
       </div>
       <div class="modal-body">
-        <?php echo form_open_multipart('KadepC/tambah_jenis_kegiatan');?>
-        <form role="form" action="<?php echo base_url(); ?>KadepC/tambah_jenis_kegiatan" method="post">
+        <?php echo form_open_multipart('PenggunaC/tambah_jenis_kegiatan');?>
+        <form role="form" action="<?php echo base_url(); ?>PenggunaC/tambah_jenis_kegiatan" method="post">
           <div class="form-group">
             <label>Nama Jenis Barang</label>
             <input class="form-control" placeholder="Nama Jenis Kegiatan" type="text" id="nama_jenis_kegiatan" name="nama_jenis_kegiatan" required>
@@ -460,8 +460,8 @@
         <h4 class="modal-title">Tambah Nama Progress</h4>
       </div>
       <div class="modal-body">
-        <?php echo form_open_multipart('KadepC/tambah_nama_progress');?>
-        <form role="form" action="<?php echo base_url(); ?>KadepC/tambah_nama_progress" method="post">
+        <?php echo form_open_multipart('PenggunaC/tambah_nama_progress');?>
+        <form role="form" action="<?php echo base_url(); ?>PenggunaC/tambah_nama_progress" method="post">
           <div class="form-group">
             <label>Nama Progress</label>
             <input class="form-control" placeholder="Nama Progress" type="text" id="nama_progress" name="nama_progress" required>
@@ -509,7 +509,7 @@
                 <td class="text-center"><?php echo $persetujuan_kegiatan->nama_jenis_kegiatan;?></td>
                 <!-- <td class="text-center"><?php echo "status";?></td> -->
                 <td class="text-center"> 
-                  <a href="<?php echo base_url('KadepC/hapus/'.$persetujuan_kegiatan->kode_acc_kegiatan);?>"  onClick="return confirm('Anda yakin akan menghapus data ini?')" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="Hapus Persetujuan Kegiatan" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
+                  <a href="<?php echo base_url('PenggunaC/hapus/'.$persetujuan_kegiatan->kode_acc_kegiatan);?>"  onClick="return confirm('Anda yakin akan menghapus data ini?')" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="Hapus Persetujuan Kegiatan" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
                 </td>
               </tr>
               <?php
@@ -533,8 +533,8 @@
       </div>
       <div class="modal-body">
         <!-- <?php var_dump($jenis_kegiatan_persetujuan) ?> -->
-        <?php echo form_open_multipart('KadepC/tambah_persetujuan_kegiatan');?>
-        <form role="form" action="<?php echo base_url(); ?>KadepC/tambah_persetujuan_kegiatan" method="post">
+        <?php echo form_open_multipart('PenggunaC/tambah_persetujuan_kegiatan');?>
+        <form role="form" action="<?php echo base_url(); ?>PenggunaC/tambah_persetujuan_kegiatan" method="post">
           <div class="form-group">
             <label>Nama Pengguna</label>
             <select class="form-control" name="id_pengguna" id="id_pengguna">
@@ -605,7 +605,7 @@
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'KadepC/detail_jabatan/'?>'+rowid,
+              url : '<?php echo base_url().'PenggunaC/detail_jabatan/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal
@@ -618,7 +618,7 @@
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'KadepC/detail_unit/'?>'+rowid,
+              url : '<?php echo base_url().'PenggunaC/detail_unit/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal
@@ -631,7 +631,7 @@
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'KadepC/detail_jenis_barang/'?>'+rowid,
+              url : '<?php echo base_url().'PenggunaC/detail_jenis_barang/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal
@@ -644,7 +644,7 @@
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'KadepC/detail_jenis_kegiatan/'?>'+rowid,
+              url : '<?php echo base_url().'PenggunaC/detail_jenis_kegiatan/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal
@@ -657,7 +657,7 @@
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'KadepC/detail_nama_progress/'?>'+rowid,
+              url : '<?php echo base_url().'PenggunaC/detail_nama_progress/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal

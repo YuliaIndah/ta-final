@@ -1,6 +1,6 @@
-<?php echo form_open_multipart('KadepC/update_jabatan');?>
+<?php echo form_open_multipart('PenggunaC/update_jabatan');?>
 <!-- <?php var_dump($detail_jabatan);?> -->
-<form role="form" action="<?php echo base_url(); ?>KadepC/update_jabatan" method="post">
+<form role="form" action="<?php echo base_url(); ?>PenggunaC/update_jabatan" method="post">
   <div class="form-group">
     <label>Nama Jabatan</label>
     <input class="form-control" type="hidden" id="kode_jabatan" name="kode_jabatan" value="<?php echo $detail_jabatan->kode_jabatan;?>" required>

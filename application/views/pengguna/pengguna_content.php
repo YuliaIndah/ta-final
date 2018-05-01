@@ -81,82 +81,94 @@
                           <!-- <td class="text-center"><?php echo $pengguna->no_hp; ?></td> -->
                           <td class="text-center"><?php if($pengguna->status_email == 0){
                             ?>
-                            <a title="Belum Aktif"><span class="glyphicon glyphicon-remove"></a>
+                            <a title="Belum Aktif"><span class="glyphicon glyphicon-remove"></a>  
                               <?php
                             }else{
                              ?>
                              <a title="Aktif"><span class="glyphicon glyphicon-ok"></a>
                                <?php
-                             }; ?></td>
-                             <?php
-                             if($pengguna->status == "tidak aktif"){
-                              ?>
-                              <td class="text-center">
-                                <a title="Belum Aktif"><span class="glyphicon glyphicon-remove"></a>
-                                </td>
-                                <td class="text-center">
-                                  <div class="btn-group">
-                                    <a data-toggle='tooltip' title='Aktif' class="btn btn-info btn-sm" href="<?php echo base_url('KadepC/aktif')."/".$pengguna->id_pengguna;?>"><span class="glyphicon glyphicon-ok"></span></a>
-                                    <a data-toggle='tooltip' title='Non-aktif' class="btn btn-danger btn-sm" disabled><span class="glyphicon glyphicon-remove"></span></a>                                 
-                                  </div>
-                                </td>
-                                <?php
-                              }else{
+                             } 
+                             ?>
+                           </td>
+                           <?php
+                           if($pengguna->status == "tidak aktif"){
+                            ?>
+                            <td class="text-center">
+                              <a title="Belum Aktif"><span class="glyphicon glyphicon-remove"></a>
+                              </td>
+                              <?php 
+                              if($pengguna->status_email == 0){
                                 ?>
-                                <td class="text-center">
-                                  <a title="Aktif"><span class="glyphicon glyphicon-ok"></a>
-                                  </td>
-                                  <td class="text-center">
-                                    <div class="btn-group">
-                                      <a  data-toggle='tooltip' title='Aktif' class="btn btn-info btn-sm" disabled><span class="glyphicon glyphicon-ok"></span></a>
-                                      <a data-toggle='tooltip' title='Non-aktif' class="btn btn-danger btn-sm" href="<?php echo base_url('KadepC/non_aktif')."/".$pengguna->id_pengguna;?>" ><span class="glyphicon glyphicon-remove"></span></a>                                 
-                                    </div>
-                                    <?php
-                                  }
-                                  ?>
-                                </td>
-                              </tr>
-
+                                <td>
+                                  <a data-toggle='tooltip' title='Aktifkan email terlebih dahulu' class="btn btn-info btn-sm" disabled><span class="glyphicon glyphicon-ok"></span></a>
+                                 <a data-toggle='tooltip' title='Non-aktif' class="btn btn-danger btn-sm" disabled><span class="glyphicon glyphicon-remove"></span></a>  
+                               </td>
+                               <?php
+                             }else{?>
+                             <td class="text-center">
+                              <div class="btn-group">
+                                <a data-toggle='tooltip' title='Aktif' class="btn btn-info btn-sm" href="<?php echo base_url('PenggunaC/aktif')."/".$pengguna->id_pengguna;?>"><span class="glyphicon glyphicon-ok"></span></a>
+                                <a data-toggle='tooltip' title='Non-aktif' class="btn btn-danger btn-sm" disabled><span class="glyphicon glyphicon-remove"></span></a>                                 
+                              </div>
+                            </td>
+                            <?php 
+                          }
+                        }else{
+                          ?>
+                          <td class="text-center">
+                            <a title="Aktif"><span class="glyphicon glyphicon-ok"></a>
+                            </td>
+                            <td class="text-center">
+                              <div class="btn-group">
+                                <a  data-toggle='tooltip' title='Aktif' class="btn btn-info btn-sm" disabled><span class="glyphicon glyphicon-ok"></span></a>
+                                <a data-toggle='tooltip' title='Non-aktif' class="btn btn-danger btn-sm" href="<?php echo base_url('PenggunaC/non_aktif')."/".$pengguna->id_pengguna;?>" ><span class="glyphicon glyphicon-remove"></span></a>                                 
+                              </div>
                               <?php
                             }
                             ?>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                          </td>
+                        </tr>
 
-              <!-- batas content -->
-
-            </section>
-            <div class="text-center">
-              <div class="credits">
-                <!-- <a href="https://bootstrapmade.com/free-business-bootstrap-themes-website-templates/">Business Bootstrap Themes</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
-              </div>
-            </div>
-          </section>
-
-
-          <!-- modal detail kegiatan -->
-          <div class="modal fade" id="detail_pengguna" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Detail Pengguna</h4>
-                </div>
-                <div class="modal-body">
-                  <div class="fetched-data"></div>
-                </div>
-                <div class="modal-footer">
+                        <?php
+                      }
+                      ?>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <script type="text/javascript">
+        <!-- batas content -->
+
+      </section>
+      <div class="text-center">
+        <div class="credits">
+          <!-- <a href="https://bootstrapmade.com/free-business-bootstrap-themes-website-templates/">Business Bootstrap Themes</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- modal detail kegiatan -->
+    <div class="modal fade" id="detail_pengguna" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Detail Pengguna</h4>
+          </div>
+          <div class="modal-body">
+            <div class="fetched-data"></div>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
     // js detail pengajuan
     $(document).ready(function(){
       $('#detail_pengguna').on('show.bs.modal', function (e) {
@@ -164,7 +176,7 @@
             //menggunakan fungsi ajax untuk pengambilan data
             $.ajax({
               type : 'get',
-              url : '<?php echo base_url().'KadepC/detail_pengguna/'?>'+rowid,
+              url : '<?php echo base_url().'PenggunaC/detail_pengguna/'?>'+rowid,
                 //data :  'rowid='+ rowid, // $_POST['rowid'] = rowid
                 success : function(data){
                 $('.fetched-data').html(data);//menampilkan data ke dalam modal

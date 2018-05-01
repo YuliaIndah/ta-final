@@ -19,6 +19,7 @@ class PenggunaC extends CI_Controller {
 		$this->data_menu = $data_array_akses_menu; // array akses menu berdasarkan user login
 	}
 	
+	// pindah pindah halaman
 	public function index(){ //halaman index kadep (dashboard)
 		$data['menu'] = $this->data_menu;
 		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
@@ -46,6 +47,390 @@ class PenggunaC extends CI_Controller {
 		$this->load->view('pengguna/index_template', $data);
 	}
 
+	public function pengguna(){//halaman pengguna (admin)
+		$data['menu'] = $this->data_menu;
+		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$this->data['data_pengguna'] = $this->PenggunaM->get_data_pengguna()->result();
+		$this->data['data_diri'] = $data_diri;  	//get data diri buat nampilin nama di pjok kanan
+		$data['title'] = "Daftar Pengguna | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
+		$data['body'] = $this->load->view('pengguna/pengguna_content', $this->data, true);
+		$this->load->view('pengguna/index_template', $data);
+	}
+
+	public function konfigurasi_sistem(){
+		$data['menu'] = $this->data_menu;
+		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$data['title'] = "Konfigurasi Sistem | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
+
+		$this->data['persetujuan_kegiatan']	= $this->PenggunaM->get_persetujuan_kegiatan()->result();
+		// $this->data['detail_jabatan'] 		= $this->PenggunaM->get_pilihan_jabatan_by_id($kode_jabatan)->result()[0];
+		$this->data['nama_pengguna']		= $this->PenggunaM->get_data_pengguna()->result();
+		$this->data['nama_progress']		= $this->PenggunaM->get_nama_progress()->result();
+		$this->data['jenis_kegiatan']		= $this->PenggunaM->get_jenis_kegiatan()->result();
+		$this->data['jenis_kegiatan_persetujuan']	= $this->PenggunaM->get_jenis_kegiatan()->result();
+		$this->data['jenis_barang']			= $this->PenggunaM->get_jenis_barang()->result();
+		$this->data['jabatan']				= $this->PenggunaM->get_pilihan_jabatan()->result();
+		$this->data['unit']					= $this->PenggunaM->get_pilihan_unit()->result();
+		$this->data['data_diri'] 			= $data_diri;  	//get data diri buat nampilin nama di pjok kanan
+		$data['body'] = $this->load->view('pengguna/konfigurasi_sistem_content', $this->data, true);
+		$this->load->view('pengguna/index_template', $data);
+	}
+
+	public function prosedur(){ //halaman index kadep (dashboard)
+		$data['menu'] = $this->data_menu;
+		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$data['title'] = "Konfigurasi Sistem | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
+
+		$this->data['data_diri'] = $data_diri;  	//get data diri buat nampilin nama di pjok kanan
+		$this->data['data_prosedur'] = $this->PenggunaM->get_prosedur()->result();
+		$data['body'] = $this->load->view('pengguna/prosedur_content', $this->data, true) ;
+		$this->load->view('pengguna/index_template', $data);
+	}
+
+
+
+
+
+
+	// umum
+	public function detail_pengguna($id_pengguna){ //menampilkan modal dengan isi dari detail_kegiatan.php
+		$data['data_pengguna'] 			= $this->PenggunaM->get_data_diri_by_id($id_pengguna)->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$this->load->view('pengguna/detail_pengguna', $data);
+	}
+
+	public function aktif($id_pengguna){ //aktifasi akun pengguna
+		if($this->PenggunaM->aktif($id_pengguna)){
+			$this->session->set_flashdata('sukses','Akun berhasil diaktifkan');	
+			redirect('PenggunaC/pengguna');
+		}else{
+			$this->session->set_flashdata('error','Akun tidak berhasil diaktifkan');	
+			redirect('PenggunaC/pengguna');
+		}
+	}
+
+    public function non_aktif($id_pengguna){ //deaktifasi akun pengguna
+    	if($this->PenggunaM->non_aktif($id_pengguna)){
+    		$this->session->set_flashdata('sukses','Akun berhasil di non-aktifkan');	
+    		redirect('PenggunaC/pengguna');
+    	}else{
+    		$this->session->set_flashdata('error','Akun tidak berhasil di non-aktifkan');	
+    		redirect('PenggunaC/pengguna');
+    	}
+    }
+
+    // Jabatan
+    public function tambah_jabatan(){
+    	$this->form_validation->set_rules('nama_jabatan', 'Nama Jabatan','required');
+    	if($this->form_validation->run() == FALSE){
+    		$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+			redirect_back(); //kembali ke halaman sebelumnya -> helper
+		}else{
+			$nama_jabatan = $_POST['nama_jabatan'];
+			$db 		= "jabatan";
+
+			$data = array(
+				'nama_jabatan'      => $nama_jabatan);
+
+			if($this->PenggunaM->insert($db, $data)){
+				$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+				redirect_back(); // redirect kembali ke halaman sebelumnya
+			}else{
+				$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+				redirect_back(); //kembali ke halaman sebelumnya -> helper
+			}
+		}
+	}
+
+
+	public function detail_jabatan($id){ //menampilkan modal dengan isi dari detail_jabatan.php
+		$data['detail_jabatan'] = $this->PenggunaM->get_pilihan_jabatan_by_id($id)->result()[0];
+		$this->load->view('pengguna/detail_jabatan', $data);
+	}
+
+	public function update_jabatan(){
+		$this->form_validation->set_rules('kode_jabatan', 'Kode Jabatan','required');
+		$this->form_validation->set_rules('nama_jabatan', 'Nama Jabatan','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+			redirect_back(); //kembali ke halaman sebelumnya -> helper
+		}else{
+			$kode_jabatan = $_POST['kode_jabatan'];
+			$nama_jabatan = $_POST['nama_jabatan'];
+			$db = "jabatan";
+			$kode = "kode_jabatan";
+
+			$data = array(
+				'nama_jabatan'      => $nama_jabatan);
+
+			if($this->PenggunaM->update($kode_jabatan, $kode, $db, $data)){
+				$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+				redirect_back(); // redirect kembali ke halaman sebelumnya
+			}else{
+				$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+				redirect_back(); //kembali ke halaman sebelumnya -> helper
+			}
+		}
+	}
+
+	// Unit
+	public function tambah_unit(){
+		$this->form_validation->set_rules('nama_unit', 'Nama Unit','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+			redirect_back(); //kembali ke halaman sebelumnya -> helper
+		}else{
+			$nama_unit = $_POST['nama_unit'];
+			$db 		= "unit";
+
+			$data = array(
+				'nama_unit'      => $nama_unit);
+
+			if($this->PenggunaM->insert($db, $data)){
+				$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+				redirect_back(); // redirect kembali ke halaman sebelumnya
+			}else{
+				$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+				redirect_back(); //kembali ke halaman sebelumnya -> helper
+			}
+		}
+	}
+
+	public function detail_unit($id){ //menampilkan modal dengan isi dari detail_jabatan.php
+		$data['detail_unit'] = $this->PenggunaM->get_pilihan_unit_by_id($id)->result()[0];
+		$this->load->view('pengguna/detail_unit', $data);
+	}
+
+	public function update_unit(){
+		$this->form_validation->set_rules('kode_unit', 'Kode Unit','required');
+		$this->form_validation->set_rules('nama_unit', 'Nama Unit','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+			redirect_back(); //kembali ke halaman sebelumnya -> helper
+		}else{
+			$kode_unit = $_POST['kode_unit'];
+			$nama_unit = $_POST['nama_unit'];
+			$db = "unit";
+			$kode = "kode_unit";
+
+			$data = array(
+				'nama_unit'      => $nama_unit);
+
+			if($this->PenggunaM->update($kode_unit, $kode, $db, $data)){
+				$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+				redirect_back(); // redirect kembali ke halaman sebelumnya
+			}else{
+				$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+				redirect_back(); //kembali ke halaman sebelumnya -> helper
+			}
+		}
+	}
+
+	// Jenis Barang
+	public function tambah_jenis_barang(){
+		$this->form_validation->set_rules('nama_jenis_barang', 'Nama Jenis Barang','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+			redirect_back(); //kembali ke halaman sebelumnya -> helper
+		}else{
+			$nama_jenis_barang = $_POST['nama_jenis_barang'];
+			$db 		= "jenis_barang";
+
+			$data = array(
+				'nama_jenis_barang'      => $nama_jenis_barang);
+
+			if($this->PenggunaM->insert($db, $data)){
+				$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+				redirect_back(); // redirect kembali ke halaman sebelumnya
+			}else{
+				$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+				redirect_back(); //kembali ke halaman sebelumnya -> helper
+			}
+		}
+	}
+
+	public function detail_jenis_barang($id){ //menampilkan modal dengan isi dari detail_jabatan.php
+		$data['detail_jenis_barang'] = $this->PenggunaM->get_jenis_barang_by_id($id)->result()[0];
+		$this->load->view('pengguna/detail_jenis_barang', $data);
+	}
+
+	public function update_jenis_barang(){
+		$this->form_validation->set_rules('kode_jenis_barang', 'Kode Jenis barang','required');
+		$this->form_validation->set_rules('nama_jenis_barang', 'Nama Jenis barang','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+			redirect_back(); //kembali ke halaman sebelumnya -> helper
+		}else{
+			$kode_jenis_barang = $_POST['kode_jenis_barang'];
+			$nama_jenis_barang = $_POST['nama_jenis_barang'];
+			$db = "jenis_barang";
+			$kode = "kode_jenis_barang";
+
+			$data = array(
+				'nama_jenis_barang'      => $nama_jenis_barang);
+
+			if($this->PenggunaM->update($kode_jenis_barang, $kode, $db, $data)){
+				$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+				redirect_back(); // redirect kembali ke halaman sebelumnya
+			}else{
+				$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+				redirect_back(); //kembali ke halaman sebelumnya -> helper
+			}
+		}
+	}
+
+	// Jenis KEgiatan
+	public function tambah_jenis_kegiatan(){
+		$this->form_validation->set_rules('nama_jenis_kegiatan', 'Nama Jenis kegiatan','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+			redirect_back(); //kembali ke halaman sebelumnya -> helper
+		}else{
+			$nama_jenis_kegiatan = $_POST['nama_jenis_kegiatan'];
+			$db 		= "jenis_kegiatan";
+
+			$data = array(
+				'nama_jenis_kegiatan'      => $nama_jenis_kegiatan);
+
+			if($this->PenggunaM->insert($db, $data)){
+				$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+				redirect_back(); // redirect kembali ke halaman sebelumnya
+			}else{
+				$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+				redirect_back(); //kembali ke halaman sebelumnya -> helper
+			}
+		}
+	}
+
+	public function detail_jenis_kegiatan($id){ //menampilkan modal dengan isi dari detail_jenis_kegiatan.php
+		$data['detail_jenis_kegiatan'] = $this->PenggunaM->get_jenis_kegiatan_by_id($id)->result()[0];
+		$this->load->view('pengguna/detail_jenis_kegiatan', $data);
+	}
+
+	public function update_jenis_kegiatan(){
+		$this->form_validation->set_rules('kode_jenis_kegiatan', 'Kode Jenis Kegiatan','required');
+		$this->form_validation->set_rules('nama_jenis_kegiatan', 'Nama Jenis Kegiatan','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+			redirect_back(); //kembali ke halaman sebelumnya -> helper
+		}else{
+			$kode_jenis_kegiatan = $_POST['kode_jenis_kegiatan'];
+			$nama_jenis_kegiatan = $_POST['nama_jenis_kegiatan'];
+			$db = "jenis_kegiatan";
+			$kode = "kode_jenis_kegiatan";
+
+			$data = array(
+				'nama_jenis_kegiatan'      => $nama_jenis_kegiatan);
+
+			if($this->PenggunaM->update($kode_jenis_kegiatan, $kode, $db, $data)){
+				$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+				redirect_back(); // redirect kembali ke halaman sebelumnya
+			}else{
+				$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+				redirect_back(); //kembali ke halaman sebelumnya -> helper
+			}
+		}
+	}
+
+	// Nama Progress
+	public function tambah_nama_progress(){
+		$this->form_validation->set_rules('nama_progress', ' Nama Progress','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+			redirect_back(); //kembali ke halaman sebelumnya -> helper
+		}else{
+			$nama_progress = $_POST['nama_progress'];
+			$db 		= "nama_progress";
+
+			$data = array(
+				'nama_progress'      => $nama_progress);
+
+			if($this->PenggunaM->insert($db, $data)){
+				$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+				redirect_back(); // redirect kembali ke halaman sebelumnya
+			}else{
+				$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+				redirect_back(); //kembali ke halaman sebelumnya -> helper
+			}
+		}
+	}
+
+	public function detail_nama_progress($id){ //menampilkan modal dengan isi dari detail_jenis_kegiatan.php
+		$data['detail_nama_progress'] = $this->PenggunaM->get_nama_progress_by_id($id)->result()[0];
+		$this->load->view('pengguna/detail_nama_progress', $data);
+	}
+
+	public function update_nama_progress(){
+		$this->form_validation->set_rules('kode_nama_progress', 'Kode Nama Progress','required');
+		$this->form_validation->set_rules('nama_progress', 'Nama Progress','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+			redirect_back(); //kembali ke halaman sebelumnya -> helper
+		}else{
+			$kode_nama_progress = $_POST['kode_nama_progress'];
+			$nama_progress = $_POST['nama_progress'];
+			$db = "nama_progress";
+			$kode = "kode_nama_progress";
+
+			$data = array(
+				'nama_progress'      => $nama_progress);
+
+			if($this->PenggunaM->update($kode_nama_progress, $kode, $db, $data)){
+				$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+				redirect_back(); // redirect kembali ke halaman sebelumnya
+			}else{
+				$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+				redirect_back(); //kembali ke halaman sebelumnya -> helper
+			}
+		}
+	}
+
+	// ACC KEgiatan
+
+	public function hapus($id){//hapus persetujuan kegiatan
+		if($this->PenggunaM->hapus($id)){
+			$this->session->set_flashdata('sukses','Data anda berhasil dihapus');
+			redirect_back();
+		}
+	}
+
+	public function tambah_persetujuan_kegiatan(){
+		$this->form_validation->set_rules('id_pengguna', ' ID Pengguna','required');
+		$this->form_validation->set_rules('ranking', 'Rangking','required');
+		$this->form_validation->set_rules('kode_jenis_kegiatan', ' Kode Jenis Kegiatan','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+			redirect_back(); //kembali ke halaman sebelumnya -> helper
+		}else{
+			$id_pengguna 			= $_POST['id_pengguna'];
+			$ranking 				= $_POST['ranking'];
+			$kode_jenis_kegiatan 	= $_POST['kode_jenis_kegiatan'];
+
+			$data = array(
+				'id_pengguna'      			=> $id_pengguna,
+				'ranking'      				=> $ranking,
+				'kode_jenis_kegiatan'      	=> $kode_jenis_kegiatan);
+			$db = "acc_kegiatan";
+
+			if($this->PenggunaM->insert($db, $data)){
+				$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+				redirect_back(); // redirect kembali ke halaman sebelumnya
+			}else{
+				$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+				redirect_back(); //kembali ke halaman sebelumnya -> helper
+			}
+		}
+	}
+
+	// Prosedur
+	public function aktif_pro($kode_doc){ //aktifasi akun pengguna
+		$this->PenggunaM->aktif_pro($kode_doc);
+		redirect('PenggunaC/prosedur');
+	}
+
+    public function non_aktif_pro($kode_doc){ //deaktifasi akun pengguna
+    	$this->PenggunaM->non_aktif_pro($kode_doc);
+    	redirect('PenggunaC/prosedur');
+    }
 
 
 
@@ -161,4 +546,32 @@ class PenggunaC extends CI_Controller {
     		}	
     	}
     }
+
+    public function post_prosedur(){ //fungsi post pengajuan kegiatan pegawai
+    	$this->form_validation->set_rules('tipe_doc', 'Tipe Dokumen','required');
+    	if($this->form_validation->run() == FALSE){
+    		$this->session->set_flashdata('error','Data Prosedur anda tidak berhasil ditambahkan');
+    		redirect('PenggunaC/prosedur');
+    	}else{
+
+    		$tipe_doc 	       		= $_POST['tipe_doc'];
+    		$status 				= $_POST['status'];
+
+    		$data_prosedur = array(
+    			'tipe_doc' 			=> $tipe_doc,
+    			'status' 			=> $status);
+
+
+			$upload = $this->PenggunaM->upload_prosedur(); // lakukan upload file dengan memanggil function upload yang ada di UserM.php
+			if($upload['result'] == "success"){ // Jika proses upload sukses
+				$this->UserM->save_prosedur($upload, $data_prosedur); // Panggil function save_prosedur yang ada di UserM.php untuk menyimpan data ke database
+			}else{ // Jika proses upload gagal
+				$data['message'] = $upload['error']; // Ambil pesan error uploadnya untuk dikirim ke file form dan ditampilkan
+				$this->session->set_flashdata('error','Data Pengajuan Kegiatan anda tidak berhasil ditambahkan');
+				redirect('PenggunaC/prosedur');
+			}
+			$this->session->set_flashdata('sukses','Data Pengajuan Kegiatan anda berhasil ditambahkan');
+			redirect('PenggunaC/prosedur');
+		}
+	}
 }

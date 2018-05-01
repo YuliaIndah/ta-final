@@ -192,12 +192,12 @@
           }
           if(in_array('10', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('PenggunaC/status_pengajuan_kegiatan_pegawai')?>">Kegiatan Pegawai</a></li>
+            <li> <a href="<?php echo site_url('KegiatanC/status_pengajuan_kegiatan_pegawai')?>">Kegiatan Pegawai</a></li>
             <?php
           }
           if(in_array('11', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('PenggunaC/status_pengajuan_kegiatan_mahasiswa')?>">Kegiatan Mahasiswa</a></li>
+            <li> <a href="<?php echo site_url('KegiatanC/status_pengajuan_kegiatan_mahasiswa')?>">Kegiatan Mahasiswa</a></li>
             <?php
           }
           if(in_array('18', $menu)){

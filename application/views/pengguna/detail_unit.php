@@ -1,5 +1,5 @@
-<?php echo form_open_multipart('KadepC/update_unit');?>
-<form role="form" action="<?php echo base_url(); ?>KadepC/update_unit" method="post">
+<?php echo form_open_multipart('PenggunaC/update_unit');?>
+<form role="form" action="<?php echo base_url(); ?>PenggunaC/update_unit" method="post">
   <div class="form-group">
     <label>Nama Unit</label>
     <input class="form-control" type="hidden" id="kode_unit" name="kode_unit" value="<?php echo $detail_unit->kode_unit;?>" required>

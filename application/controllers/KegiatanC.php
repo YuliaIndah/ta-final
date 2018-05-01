@@ -117,7 +117,7 @@ class KegiatanC extends CI_Controller {
 	}
 
 	public function hapus_pengajuan($kode_kegiatan){//hapus pengajuan kegiatan
-		if($this->KadepM->hapus_pengajuan($kode_kegiatan)){
+		if($this->KegiatanM->hapus_pengajuan($kode_kegiatan)){
 			$this->session->set_flashdata('sukses','Data anda berhasil dihapus');
 			redirect_back();
 		}else{
@@ -125,6 +125,36 @@ class KegiatanC extends CI_Controller {
 			redirect_back();
 		}
 	}
+
+	public function status_pengajuan_kegiatan_pegawai(){ //halaman index Sekretaris Departemen (dashboard)
+		$data['menu'] = $this->data_menu;
+		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$this->data['data_diri'] = $data_diri;  	//get data diri buat nampilin nama di pjok kanan
+		$data['title'] = "Status Pengajuan Kegiatan Pegawai | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
+		$kode_jenis_kegiatan = 1; //kegiatan mahasiswa
+		$this->data['data_pengajuan_kegiatan'] = $this->KegiatanM->get_data_pengajuan($kode_jenis_kegiatan)->result();
+		$this->data['KegiatanM'] = $this->KegiatanM ;
+		$this->data['cek_min_pegawai'] = $this->KegiatanM->cek_min_pegawai();
+		$this->data['cek_id_staf_keu'] = $this->KegiatanM->cek_id_staf_keu()->result();
+		$data['body'] = $this->load->view('pengguna/status_pengajuan_kegiatan_pegawai_content', $this->data, true) ;
+		$this->load->view('pengguna/index_template', $data);
+	}
+
+	public function status_pengajuan_kegiatan_mahasiswa(){ //halaman index Sekretaris Departemen (dashboard)
+		$data['menu'] = $this->data_menu;
+		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$this->data['data_diri'] = $data_diri;  	//get data diri buat nampilin nama di pjok kanan
+		$data['title'] = "Status Pengajuan Kegiatan Pegawai | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
+
+		$kode_jenis_kegiatan = 2; //kegiatan mahasiswa
+		$this->data['data_pengajuan_kegiatan'] = $this->KegiatanM->get_data_pengajuan($kode_jenis_kegiatan)->result();
+		$this->data['KegiatanM'] = $this->KegiatanM ;
+		$this->data['cek_min_mhs'] = $this->UserM->cek_min_mhs();
+		$this->data['cek_id_staf_keu'] = $this->KegiatanM->cek_id_staf_keu()->result();
+		$data['body'] = $this->load->view('pengguna/status_pengajuan_kegiatan_mahasiswa_content', $this->data, true) ;
+		$this->load->view('pengguna/index_template', $data);
+	}
+
 
 
 	// =================================POST+POST+POST+POST=================================

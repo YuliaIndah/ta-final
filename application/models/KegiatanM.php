@@ -88,11 +88,14 @@
 		return $query->num_rows();
 	}
 
-	public function get_progress_by_id($id){
+	public function get_progress_by_id($id, $kode_kegiatan){
 		$this->db->select('*');
 		$this->db->from('progress');
 		$this->db->join('nama_progress','nama_progress.kode_nama_progress = progress.kode_nama_progress');
+		$this->db->join('kegiatan', 'kegiatan.kode_kegiatan = progress.kode_fk');
 		$this->db->where('progress.id_pengguna', $id);
+		$this->db->where('progress.kode_fk = kegiatan.kode_kegiatan');
+		$this->db->where('kegiatan.kode_kegiatan', $kode_kegiatan);
 		$this->db->where('progress.jenis_progress = "kegiatan"');
 		$this->db->order_by('progress.created_at','DESC');
 		$this->db->limit(1);
@@ -118,6 +121,7 @@
 		$query = $this->db->get('nama_progress');
 		return $query;
 	}
+
 
 
 
@@ -195,6 +199,13 @@
 		}
 	}
 
+	public function cek_min_mhs(){
+		$this->db->select_min('ranking');
+		$this->db->where('kode_jenis_kegiatan = "2"'); //mhs
+		$query = $this->db->get('acc_kegiatan')->row(); 
+		return $query;
+	}
+
 	// Kegiatan Pegawai
 	public function cek_max_pegawai(){
 		$this->db->select_max('ranking');
@@ -254,6 +265,13 @@
 		$this->db->where('kode_kegiatan', $kode_kegiatan);
 		$this->db->delete('kegiatan');
 		return TRUE;
+	}
+
+	public function cek_min_pegawai(){
+		$this->db->select_min('ranking');
+		$this->db->where('kode_jenis_kegiatan = "1"'); //peg
+		$query = $this->db->get('acc_kegiatan')->row(); 
+		return $query;
 	}
 
 

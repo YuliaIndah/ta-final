@@ -1,5 +1,5 @@
-<?php echo form_open_multipart('KadepC/update_nama_progress');?>
-<form role="form" action="<?php echo base_url(); ?>KadepC/update_nama_progress" method="post">
+<?php echo form_open_multipart('PenggunaC/update_nama_progress');?>
+<form role="form" action="<?php echo base_url(); ?>PenggunaC/update_nama_progress" method="post">
   <div class="form-group">
     <label>Nama Progress</label>
     <input class="form-control" type="hidden" id="kode_nama_progress" name="kode_nama_progress" value="<?php echo $detail_nama_progress->kode_nama_progress;?>" required>

@@ -1,5 +1,5 @@
-<?php echo form_open_multipart('KadepC/update_jenis_barang');?>
-<form role="form" action="<?php echo base_url(); ?>KadepC/update_jenis_barang" method="post">
+<?php echo form_open_multipart('PenggunaC/update_jenis_barang');?>
+<form role="form" action="<?php echo base_url(); ?>PenggunaC/update_jenis_barang" method="post">
   <div class="form-group">
     <label>Nama Jenis Barang</label>
     <input class="form-control" type="hidden" id="kode_jenis_barang" name="kode_jenis_barang" value="<?php echo $detail_jenis_barang->kode_jenis_barang;?>" required>

@@ -59,11 +59,11 @@
                         <?php 
                         if($prosedur->status == "aktif"){ ?>
                         <a  data-toggle='tooltip' title='Aktif' class="btn btn-info btn-sm" disabled><span class="glyphicon glyphicon-ok"></span></a>
-                        <a data-toggle='tooltip' title='Non-aktif' class="btn btn-danger btn-sm" href="<?php echo base_url('KadepC/non_aktif_pro')."/".$prosedur->kode_doc;?>" ><span class="glyphicon glyphicon-remove"></span></a> 
+                        <a data-toggle='tooltip' title='Non-aktif' class="btn btn-danger btn-sm" href="<?php echo base_url('PenggunaC/non_aktif_pro')."/".$prosedur->kode_doc;?>" ><span class="glyphicon glyphicon-remove"></span></a> 
                         <?php
                       }else{
                         ?>  
-                        <a  data-toggle='tooltip' title='Aktif' class="btn btn-info btn-sm" href="<?php echo base_url('KadepC/aktif_pro')."/".$prosedur->kode_doc;?>"><span class="glyphicon glyphicon-ok"></span></a>
+                        <a  data-toggle='tooltip' title='Aktif' class="btn btn-info btn-sm" href="<?php echo base_url('PenggunaC/aktif_pro')."/".$prosedur->kode_doc;?>"><span class="glyphicon glyphicon-ok"></span></a>
                         <a data-toggle='tooltip' title='Non-aktif' class="btn btn-danger btn-sm" disabled><span class="glyphicon glyphicon-remove"></span></a>
                         <?php
                       }
@@ -103,8 +103,8 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="panel-body">
-            <?php echo form_open_multipart('KadepC/post_prosedur');?>
-            <form role="form" action="<?php echo base_url(); ?>KadepC/post_prosedur" method="post">
+            <?php echo form_open_multipart('PenggunaC/post_prosedur');?>
+            <form role="form" action="<?php echo base_url(); ?>PenggunaC/post_prosedur" method="post">
               <!-- Alert -->
               <!-- sampai sini -->
               <div class="form-group">

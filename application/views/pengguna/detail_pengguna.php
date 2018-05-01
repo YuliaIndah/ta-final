@@ -18,36 +18,36 @@
 
     <!-- <?php var_dump($data_pengguna->nama); ?> -->
     <div class="form-group">
-        <label class="control-label col-sm-5" for="tgl_pengajuan" style="text-align: left;">Nama Lengkap</label>
-        <div class="col-sm-5">
+        <label class="control-label col-sm-4" for="tgl_pengajuan" style="text-align: left;">Nama Lengkap</label>
+        <div class="col-sm-6">
             <p class="form-control-static"> <?php echo ": ".$data_pengguna->nama; ?> </p>
         </div>
-        <label class="control-label col-sm-5" for="tgl_pengajuan" style="text-align: left;">Jenis Kelamin</label>
-        <div class="col-sm-5">
+        <label class="control-label col-sm-4" for="tgl_pengajuan" style="text-align: left;">Jenis Kelamin</label>
+        <div class="col-sm-6">
             <p class="form-control-static"> <?php echo ": ".$data_pengguna->jen_kel; ?> </p>
         </div>
-        <label class="control-label col-sm-5" for="tgl_pengajuan" style="text-align: left;">Tempat, Tanggal Lahir</label>
-        <div class="col-sm-5">
+        <label class="control-label col-sm-4" for="tgl_pengajuan" style="text-align: left;">Tempat, Tanggal Lahir</label>
+        <div class="col-sm-6">
            <?php
            $tgl_lahir = $data_pengguna->tgl_lahir;
            $new_tgl_lahir = date('d-m-Y', strtotime($tgl_lahir));
            ?>
            <p class="form-control-static"> <?php echo ": ".$data_pengguna->tmp_lahir.", ".$new_tgl_lahir; ?> </p>
         </div>
-        <label class="control-label col-sm-5" for="tgl_pengajuan" style="text-align: left;">Alamat Lengkap</label>
-        <div class="col-sm-5">
+        <label class="control-label col-sm-4" for="tgl_pengajuan" style="text-align: left;">Alamat Lengkap</label>
+        <div class="col-sm-6">
             <p class="form-control-static"> <?php echo ": ".$data_pengguna->alamat; ?> </p>
         </div>
-        <label class="control-label col-sm-5" for="tgl_pengajuan" style="text-align: left;">No Handphone</label>
-        <div class="col-sm-5">
+        <label class="control-label col-sm-4" for="tgl_pengajuan" style="text-align: left;">No Handphone</label>
+        <div class="col-sm-6">
             <p class="form-control-static"> <?php echo ": ".$data_pengguna->no_hp;?> </p>
         </div>
-        <label class="control-label col-sm-5" for="tgl_pengajuan" style="text-align: left;">Jabatan</label>
-        <div class="col-sm-5">
+        <label class="control-label col-sm-4" for="tgl_pengajuan" style="text-align: left;">Jabatan</label>
+        <div class="col-sm-6">
             <p class="form-control-static"> <?php echo ": ".$data_pengguna->nama_jabatan." ".$data_pengguna->nama_unit;?> </p>
         </div>
-        <label class="control-label col-sm-5" for="tgl_pengajuan" style="text-align: left;">Email</label>
-        <div class="col-sm-5">
+        <label class="control-label col-sm-4" for="tgl_pengajuan" style="text-align: left;">Email</label>
+        <div class="col-sm-6">
             <p class="form-control-static"> <?php echo ": ".$data_pengguna->email;?> </p>
         </div>
    </div>

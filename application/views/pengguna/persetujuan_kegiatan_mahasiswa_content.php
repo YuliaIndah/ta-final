@@ -89,7 +89,7 @@
                         $id_staf_keu = $cek_id_staf_keu[0]->id_pengguna; 
                         $progress_staf_keu = $KegiatanM->get_own_progress($kode, $id_staf_keu);
                         if($progress_staf_keu > 0){ //sudah ada input staf keu
-                          $progress_nama = $KegiatanM->get_progress_by_id($id_staf_keu)->result()[0]->nama_progress;
+                          $progress_nama = $KegiatanM->get_progress_by_id($id_staf_keu, $kode)->result()[0]->nama_progress;
                           ?>
                           <a class="label label-warning" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress"><?php echo $progress_nama?></a>
                           <?php
