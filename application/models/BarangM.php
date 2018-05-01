@@ -1,6 +1,6 @@
  <?php  
  defined('BASEPATH') OR exit('No direct script access allowed');  
- class Man_sarprasM extends CI_Model  
+ class BarangM extends CI_Model  
  {  
  	function __construct(){
  		parent:: __construct();
@@ -139,6 +139,19 @@
 			return null;
 		}
 	} 
+
+	function get_barang(){ //menampilkan data seluruh barang
+		$this->db->select('*');
+		$this->db->from('barang');
+		$this->db->join('jenis_barang','jenis_barang.kode_jenis_barang = barang.kode_jenis_barang');
+		$query = $this->db->get();
+		if($query){
+			return $query;
+		}else{
+			return null;
+		}
+
+	}
 
 	public function get_barang_setuju(){ // menampilkan data item pengajuan barag yang memiliki status pengajuan proses atau pending
 		$this->db->select('*');

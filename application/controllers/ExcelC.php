@@ -8,29 +8,31 @@ class ExcelC extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['UserM','Man_sarprasM']);
-		Man_sarpras_access();
-	}
+		$this->load->model(['UserM','BarangM','PenggunaM']);
+        in_access(); //helper buat batasi akses login/session
+
+        $data_akses_menu = $this->PenggunaM->get_akses_menu()->result();
+        $data_array_akses_menu = array();
+        foreach ($data_akses_menu as $menu) {
+            array_push($data_array_akses_menu, $menu->kode_menu);
+        }
+        $this->data_menu = $data_array_akses_menu; // array akses menu berdasarkan user login
+    }
 
 	public function index(){ //halaman index man_sarpras (dashboard)
-		$data['title'] = "Pengajuan RAB | Manajer Sarana dan Prasarana";
-        $this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0]; //get data diri buat nampilin nama di pjok kanan
-        $this->data['data_pengajuan_all'] = $this->Man_sarprasM->data_rab_all(); //menampilkan data item pengajuan barang 
-        $this->data['Man_sarprasM'] = $this->Man_sarprasM;
-        $data['body'] = $this->load->view('man_sarpras/data_rab_content', $this->data, true);
-        $this->load->view('man_sarpras/index_template', $data);
+        $data['menu'] = $this->data_menu;
+        $data_diri = $this->PenggunaM->get_data_diri()->result()[0];    //get data diri buat nampilin nama di pjok kanan
+        $data['title'] = "Pengajuan RAB | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
+        $this->data['data_diri'] = $data_diri; //get data diri buat nampilin nama di pjok kanan
+        $this->data['data_pengajuan_all'] = $this->BarangM->data_rab_all(); //menampilkan data item pengajuan barang 
+        $this->data['BarangM'] = $this->BarangM;
+        $data['body'] = $this->load->view('pengguna/data_rab_content', $this->data, true);
+        $this->load->view('pengguna/index_template', $data);
     }
 
 
-   public function data_diri(){
-    $data['title'] = "Data Diri - Manajer Sarana dan Prasarana";
-		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
-		$data['body'] = $this->load->view('man_sarpras/data_diri_content', $this->data, true) ;
-		$this->load->view('man_sarpras/index_template', $data);
-	}
-
 	// sebagai man_sarpras
-	public function export(){
+    public function export(){
         // Load plugin PHPExcel nya
         include APPPATH.'third_party/PHPExcel/PHPExcel.php';
         
@@ -38,12 +40,12 @@ class ExcelC extends CI_Controller {
         $excel = new PHPExcel();
 
         // Settingan awal fil excel
-        $excel->getProperties()->setCreator('My Notes Code')
-        ->setLastModifiedBy('My Notes Code')
-        ->setTitle("Data Siswa")
-        ->setSubject("Siswa")
-        ->setDescription("Laporan Semua Data Siswa")
-        ->setKeywords("Data Siswa");
+        $excel->getProperties()->setCreator('Manajer Sarpras')
+        ->setLastModifiedBy('Manajer Sarpras')
+        ->setTitle("Data RAB")
+        ->setSubject("RAB")
+        ->setDescription("Daftar Item Pengajuan RAB")
+        ->setKeywords("Data RAB");
 
         // Buat sebuah variabel untuk menampung pengaturan style dari header tabel
         $style_col = array(
@@ -106,7 +108,7 @@ class ExcelC extends CI_Controller {
         $excel->getActiveSheet()->getStyle('K3')->applyFromArray($style_col);
 
         // Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
-        $data_rab = $this->Man_sarprasM->data_rab_all();
+        $data_rab = $this->BarangM->data_rab_all();
 
         $no = 1; // Untuk penomoran tabel, di awal set dengan 1
         $numrow = 4; // Set baris pertama untuk isi tabel adalah baris ke 4

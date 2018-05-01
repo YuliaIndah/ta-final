@@ -27,8 +27,8 @@ class BarangC extends CI_Controller {
 		$id_pengguna = $this->session->userdata('id_pengguna');
 		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
 		$data['title'] = "Persetujuan Item Pengajuan | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
-		$this->data['data_persetujuan_barang'] = $this->Man_sarprasM->get_data_item_pengajuan()->result();
-		$this->data['Man_sarprasM'] = $this->Man_sarprasM ;
+		$this->data['data_persetujuan_barang'] = $this->BarangM->get_data_item_pengajuan()->result();
+		$this->data['BarangM'] = $this->BarangM ;
 		$this->data['data_diri'] = $data_diri; //get data diri buat nampilin nama di pjok kanan
 		$data['body'] = $this->load->view('pengguna/persetujuan_barang_content', $this->data, true) ;
 		$this->load->view('pengguna/index_template', $data);
@@ -40,8 +40,8 @@ class BarangC extends CI_Controller {
 		$id_pengguna = $this->session->userdata('id_pengguna');
 		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
 		$data['title'] = "Kelola Barang | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
-		$this->data['data_barang'] = $this->Man_sarprasM->get_barang()->result();
-		$this->data['jenis_barang'] = $this->Man_sarprasM->get_pilihan_jenis_barang()->result();
+		$this->data['data_barang'] = $this->BarangM->get_barang()->result();
+		$this->data['jenis_barang'] = $this->BarangM->get_pilihan_jenis_barang()->result();
 		$this->data['data_diri'] = $data_diri; //get data diri buat nampilin nama di pjok kanan
 		$data['body'] = $this->load->view('pengguna/barang_content', $this->data, true) ;
 		$this->load->view('pengguna/index_template', $data);
@@ -53,7 +53,7 @@ class BarangC extends CI_Controller {
 		$id_pengguna = $this->session->userdata('id_pengguna');
 		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
 		$data['title'] = "Klasifikasi Barang | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
-		$this->data['data_klasifikasi'] = $this->Man_sarprasM->get_data_klasifikasi_barang()->result();
+		$this->data['data_klasifikasi'] = $this->BarangM->get_data_klasifikasi_barang()->result();
 		$this->data['data_diri'] = $data_diri; //get data diri buat nampilin nama di pjok kanan
 		$data['body'] = $this->load->view('pengguna/klasifikasi_barang_content', $this->data, true) ;
 		$this->load->view('pengguna/index_template', $data);
@@ -65,9 +65,9 @@ class BarangC extends CI_Controller {
 		$id_pengguna = $this->session->userdata('id_pengguna');
 		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
 		$data['title'] = "Pengajuan RAB | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
-		$this->data['data_barang_setuju'] = $this->Man_sarprasM->get_barang_setuju()->result();
-		$this->data['pengajuan'] = $this->Man_sarprasM->get_pengajuan_rab()->result();
-		$this->data['Man_sarprasM'] = $this->Man_sarprasM;
+		$this->data['data_barang_setuju'] = $this->BarangM->get_barang_setuju()->result();
+		$this->data['pengajuan'] = $this->BarangM->get_pengajuan_rab()->result();
+		$this->data['BarangM'] = $this->BarangM;
 		$this->data['data_diri'] = $data_diri; //get data diri buat nampilin nama di pjok kanan
 		$data['body'] = $this->load->view('pengguna/ajukan_RAB_content', $this->data, true) ;
 		$this->load->view('pengguna/index_template', $data);
@@ -79,8 +79,8 @@ class BarangC extends CI_Controller {
 		$id_pengguna = $this->session->userdata('id_pengguna');
 		$data_diri = $this->PenggunaM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
 		$data['title'] = "Pengajuan RAB | ".$data_diri->nama_jabatan." ".$data_diri->nama_unit;
-		$this->data['data_pengajuan_all'] = $this->Man_sarprasM->data_rab_all()->result();
-		$this->data['Man_sarprasM'] = $this->Man_sarprasM;
+		$this->data['data_pengajuan_all'] = $this->BarangM->data_rab_all()->result();
+		$this->data['BarangM'] = $this->BarangM;
 		$this->data['data_diri'] = $data_diri; //get data diri buat nampilin nama di pjok kanan
 		$data['body'] = $this->load->view('pengguna/data_rab_content', $this->data, true) ;
 		$this->load->view('pengguna/index_template', $data);
@@ -89,13 +89,13 @@ class BarangC extends CI_Controller {
 	// ================================FUNGSI DI HALAMAN=====================
 
 	public function detail_progress_barang($id){ //menampilkan modal dengan isi dari detail progres barang.php
-		$data['detail_progress_barang']	= $this->Man_sarprasM->get_detail_progress_barang_by_id($id)->result();
-		$this->load->view('man_sarpras/detail_progress_barang', $data);
+		$data['detail_progress_barang']	= $this->BarangM->get_detail_progress_barang_by_id($id)->result();
+		$this->load->view('penggunaB/detail_progress_barang', $data);
 	}
 
 	public function ubah_barang($kode_barang){ //menampilkan modal dengan isi dari ubah_barang.php
 		$data['ubah_barang']          = $this->UserM->get_barang_by_kode_barang($kode_barang)->result()[0];
-		$data['pilihan_jenis_barang'] = $this->Man_sarprasM->get_pilihan_jenis_barang($kode_barang)->result();
+		$data['pilihan_jenis_barang'] = $this->BarangM->get_pilihan_jenis_barang($kode_barang)->result();
 		echo json_encode($data);
 	}
 
@@ -114,7 +114,7 @@ class BarangC extends CI_Controller {
 			'kode_jenis_barang' => $kode_jenis_barang
 		);
 		$this->UserM->ubah_data_barang($id,$data);
-		redirect('Man_sarprasC/kelola_barang');
+		redirect('BarangC/kelola_barang');
 	}
 
 	public function update_klasifikasi($kode_jenis_barang, $kode_barang){ //edit data diri
@@ -125,28 +125,28 @@ class BarangC extends CI_Controller {
 			'kode_barang'     	=> $kode_barang,
 			'kode_jenis_barang' => $kode_jenis_barang
 		);
-		$this->Man_sarprasM->update_klasifikasi_barang($kode_barang,$data);
+		$this->BarangM->update_klasifikasi_barang($kode_barang,$data);
 		$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
 		redirect('Man_sarprasC/klasifikasi_barang');
 	}
 
 	public function setuju($kode){ //mengubah status pengajuan menjadi diajukan karena barang disetujui untuk diajukan
-		if($this->Man_sarprasM->setuju($kode)){
-			$this->session->set_flashdata('sukses','Data anda tidak berhasil disimpan');
-			redirect('Man_sarprasC/ajukan_RAB');
+		if($this->BarangM->setuju($kode)){
+			$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+			redirect('BarangC/ajukan_RAB');
 		}else{
 			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');	
-			redirect('Man_sarprasC/ajukan_RAB');
+			redirect('BarangC/ajukan_RAB');
 		}
 	}
 
 	public function tunda($kode){ //mengubah status pengajuan menjadi tunda karena barang belum bisa diajukan untuk diajukan
-		if($this->Man_sarprasM->tunda($kode)){
-			$this->session->set_flashdata('sukses','Data anda tidak berhasil disimpan');
-			redirect('Man_sarprasC/ajukan_RAB');
+		if($this->BarangM->tunda($kode)){
+			$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
+			redirect('BarangC/ajukan_RAB');
 		}else{
 			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
-			redirect('Man_sarprasC/ajukan_RAB');
+			redirect('BarangC/ajukan_RAB');
 		}
 	}
 
@@ -168,9 +168,9 @@ class BarangC extends CI_Controller {
 				'nama_barang'		=> $nama_barang,
 				'kode_jenis_barang'	=> $kode_jenis_barang
 			);
-			if($this->Man_sarprasM->insert_tambah_barang($data_pengguna)){
+			if($this->BarangM->insert_tambah_barang($data_pengguna)){
 				$this->session->set_flashdata('sukses','Data Barang berhasil ditambahkan');
-				redirect('Man_sarprasC/kelola_barang');
+				redirect('BarangC/kelola_barang');
 			}else{
 				$this->session->set_flashdata('error','Data Barang tidak berhasil ditambahkan');
 				redirect('Man_sarprasC/kelola_barang');
@@ -225,9 +225,9 @@ class BarangC extends CI_Controller {
 				'status_pengajuan' => $persetujuan
 			);
 			if($this->UserM->insert_progress($data_progress)){
-				$this->Man_sarprasM->update_persetujuan($data,$kode_fk);
+				$this->BarangM->update_persetujuan($data,$kode_fk);
 				$this->session->set_flashdata('sukses','Data Barang berhasil ditambahkan');
-				redirect('Man_sarprasC/persetujuan_barang');
+				redirect('BarangC/persetujuan_barang');
 			}else{
 				$this->session->set_flashdata('error','Data Barang tidak berhasil ditambahkan2');
 				redirect('Man_sarprasC/persetujuan_barang');
@@ -247,7 +247,7 @@ class BarangC extends CI_Controller {
 			'status_persediaan' => 'tersedia'
 		);
 
-		if($this->Man_sarprasM->update_persetujuan_tersedia($data, $kode_item_pengajuan)){
+		if($this->BarangM->update_persetujuan_tersedia($data, $kode_item_pengajuan)){
 			$id_pengguna 		= $data_diri->id_pengguna;
 			$kode_fk 		    = $kode_item_pengajuan;
 			$kode_nama_progress = "1";

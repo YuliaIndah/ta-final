@@ -165,7 +165,7 @@
           }
           if(in_array('8', $menu)){
             ?>
-            <li> <a href="<?php echo site_url('BarangC/pengajuan_rab')?>">RAB</a></li>
+            <li> <a href="<?php echo site_url('BarangC/ajukan_RAB')?>">RAB</a></li>
             <?php
           }
           if(in_array('9', $menu)){
